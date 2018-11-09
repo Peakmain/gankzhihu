@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">快报</string>
+    <string name="no_network_connection">请检查网络</string>
+    <string name="github">github今日热门</string>
+    <string name="about_me">关于我</string>
+    <string name="headline">大公司头条</string>
+    <string name="one_word">站在巨人的肩膀上，你将走的更远。</string>
+    <string name="desc"> * 知乎，干货集中营，好奇心日报</string>
+    <string name="desc_api_zhihu"> * 知乎日报 Api 取自 ZhihuDailyPurify</string>
+    <string name="desc_api_gank"> * 干货日报 Api 取自 Gank.io</string>
+    <string name="desc_api_daily"> * 好奇心日报 Api 是爬取出来的</string>
+    <string name="desc_dev"> * 整体开发基于 MVP+RxJava+Retrofit+Dagger+ARouter</string>
+    <string name="app_dev">开发</string>
+    <string name="desc_dev_1"> * 通过 Retrofit 实现了无网缓存</string>
+    <string name="desc_dev_2"> * 基于 MVP +Dagger模式降低耦合性</string>
+    <string name="desc_dev_3"> * 运用原生RecyclerView加载了多种复杂布局</string>
+    <string name="app_content">联系我</string>
+    <string name="api_info">以上api只用做学习用途，如有冒犯请联系我删除。</string>
+    <string name="load_error">加载错误</string>
+</resources>
