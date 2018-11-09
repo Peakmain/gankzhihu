@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Werb on 2016/8/19.
- * Werb is Wanbo.
- * Contact Me : werbhelius@gmail.com
+ * @author ：Peakmain
+ * version ：1.0
+ * createTime ：2018/11/9 0009 下午 5:50
+ * mail : 2726449200@qq.com
+ * describe ：
  */
+
 public class GankData {
 
     public Result results;
