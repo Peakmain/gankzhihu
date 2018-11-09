@@ -5,7 +5,7 @@
 * 基于 MVP +Dagger模式降低耦合性
 * 运用原生RecyclerView加载了多种复杂布局
 * 模仿58同城子定义view效果
-* GitHub 项目地址 : []()
+* GitHub 项目地址 : [https://github.com/RangersEZ/gankzhihu](https://github.com/RangersEZ/gankzhihu)
 
 ### 主界面
 * 汇集了知乎日报，干货集中营，以及好奇心日报，三种不同风格的阅读体验
@@ -28,4 +28,4 @@
 ### 联系我
 * Email: 2726449200@qq.com
 * Jane's book : [Peakmain's blog](https://www.jianshu.com/u/3ff32f5aea98)
-* Gitee: [Peakmain](https://gitee.com/yijia_cn/events)
+* Github: [Peakmain](https://github.com/RangersEZ/gankzhihu)

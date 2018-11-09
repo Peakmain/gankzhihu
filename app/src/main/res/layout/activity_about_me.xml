@@ -203,7 +203,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="* Gitee : "
+                        android:text="* Github : "
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -211,7 +211,7 @@
                         android:id="@+id/tv_github"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="https://gitee.com/yijia_cn/events"
+                        android:text="https://github.com/RangersEZ/gankzhihu"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp" />
 
