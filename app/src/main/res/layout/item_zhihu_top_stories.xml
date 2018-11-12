@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,18 +12,10 @@
         <com.youth.banner.Banner
             android:id="@+id/vp_top_stories"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
-
-        <TextView
-            android:id="@+id/tv_top_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            android:background="@color/trangery"
-            android:textStyle="bold"
-            android:padding="5dp" />
+            android:layout_height="200dp"
+            app:indicator_drawable_unselected="@drawable/circle_default"
+            app:indicator_drawable_selected="@drawable/circle_selected"
+            />
 
     </RelativeLayout>
 
@@ -32,6 +25,6 @@
         android:layout_height="35dp"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:text="今日热闻"/>
+        android:text="今日热闻" />
 
 </LinearLayout>

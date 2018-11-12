@@ -6,6 +6,9 @@ import android.content.Context;
 import com.peakmain.gankzhihu.di.module.ActivityModule;
 import com.peakmain.gankzhihu.di.scope.ContextLife;
 import com.peakmain.gankzhihu.di.scope.PerActivity;
+import com.peakmain.gankzhihu.ui.activity.DailyFeedActivity;
+import com.peakmain.gankzhihu.ui.activity.GankWebActivity;
+import com.peakmain.gankzhihu.ui.activity.ZhihuWebActivity;
 
 import dagger.Component;
 
@@ -27,4 +30,9 @@ public interface ActivityComponent {
 
     Activity getActivity();
 
+    void inject(ZhihuWebActivity zhihuWebActivity);
+
+    void inject(GankWebActivity gankWebActivity);
+
+    void inject(DailyFeedActivity dailyFeedActivity);
 }

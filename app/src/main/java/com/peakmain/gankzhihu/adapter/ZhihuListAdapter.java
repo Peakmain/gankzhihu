@@ -12,12 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
 import com.peakmain.gankzhihu.bean.zhihu.Stories;
 import com.peakmain.gankzhihu.bean.zhihu.TopStories;
 import com.peakmain.gankzhihu.di.scope.ContextLife;
+import com.peakmain.gankzhihu.ui.activity.ZhihuWebActivity;
 import com.peakmain.gankzhihu.utils.BannerUtils;
 import com.peakmain.gankzhihu.utils.ScreenUtil;
 import com.youth.banner.Banner;
@@ -150,8 +152,11 @@ public class ZhihuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             tv_stories_title.setText(stories.getTitle());
             String[] images = stories.getImages();
             Glide.with(context).load(images[0]).centerCrop().into(iv_stories_img);
-
-            //card_stories.setOnClickListener(v -> context.startActivity(ZhihuWebActivity.newIntent(context,stories.getId())));
+            /*context.startActivity(ZhihuWebActivity.newIntent(context,stories.getId()))*/
+            card_stories.setOnClickListener(v ->
+                    ARouter.getInstance().build("/activity/ZhihuWebActivity")
+                            .withString(ZhihuWebActivity.ID, stories.getId())
+                            .navigation());
         }
     }
 
@@ -161,8 +166,6 @@ public class ZhihuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class TopStoriesViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.vp_top_stories)
         Banner mBanner;
-        @BindView(R.id.tv_top_title)
-        TextView tv_top_title;
 
         public TopStoriesViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -170,13 +173,20 @@ public class ZhihuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bindItem(List<TopStories> topList) {
-            mBannerImage=new ArrayList<>();
-            mBannerTitle=new ArrayList<>();
+            mBannerImage = new ArrayList<>();
+            mBannerTitle = new ArrayList<>();
             for (TopStories topStories : topList) {
                 mBannerImage.add(topStories.getImage());
                 mBannerTitle.add(topStories.getTitle());
             }
-            BannerUtils.initBanner(mBanner,mBannerImage,mBannerTitle);
+            BannerUtils.initBanner(mBanner, mBannerImage, mBannerTitle);
+            //下标从0开始
+            mBanner.setOnBannerListener(position -> {
+                ARouter.getInstance().build("/activity/ZhihuWebActivity")
+                        .withString(ZhihuWebActivity.ID, topList.get(position).getId())
+                        .navigation();
+
+            });
         }
     }
 

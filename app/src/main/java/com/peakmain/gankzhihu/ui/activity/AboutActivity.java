@@ -6,6 +6,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.base.BaseActivity;
 
@@ -18,6 +20,7 @@ import butterknife.BindView;
  * mail : 2726449200@qq.com
  * describe ：
  */
+@Route(path = "/activity/AboutActivity")
 public class AboutActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.tv_github)
     TextView tv_github;
@@ -31,7 +34,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initInjector() {
-
+        ARouter.getInstance().inject(this);
     }
 
     @Override

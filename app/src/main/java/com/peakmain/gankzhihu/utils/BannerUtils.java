@@ -22,15 +22,15 @@ import java.util.List;
  */
 public class BannerUtils {
 
-    public static void initBanner(Banner banner, List<String>images,List<String> titles){
+    public static void initBanner(Banner banner, List<String> images, List<String> titles) {
         //设置banner样式
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
         //设置图片加载器
         banner.setImageLoader(new GlideImageLoader());
         //设置图片集合
         banner.setImages(images);
         //设置banner动画效果
-        banner.setBannerAnimation(Transformer.DepthPage);
+        banner.setBannerAnimation(Transformer.ZoomOutSlide);
         //设置标题集合（当banner样式有显示title时）
         banner.setBannerTitles(titles);
         //设置自动轮播，默认为true
@@ -42,6 +42,7 @@ public class BannerUtils {
         //banner设置方法全部调用完毕时最后调用
         banner.start();
     }
+
     private static class GlideImageLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
@@ -54,13 +55,9 @@ public class BannerUtils {
              */
             //Glide 加载图片简单用法
             Glide.with(context).load(path).into(imageView);
-
-            //Picasso 加载图片简单用法
-            Glide.with(context).load(path).into(imageView);
-
-            //用fresco加载图片简单用法，记得要写下面的createImageView方法
+     /*        //用fresco加载图片简单用法，记得要写下面的createImageView方法
             Uri uri = Uri.parse((String) path);
-            imageView.setImageURI(uri);
+            imageView.setImageURI(uri);*/
         }
     }
 }

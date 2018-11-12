@@ -1,7 +1,6 @@
 package com.peakmain.gankzhihu.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -13,13 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.bean.daily.Daily;
 import com.peakmain.gankzhihu.bean.daily.HeadLine;
 import com.peakmain.gankzhihu.bean.daily.Response;
-import com.peakmain.gankzhihu.bean.zhihu.TopStories;
 import com.peakmain.gankzhihu.di.scope.ContextLife;
+import com.peakmain.gankzhihu.ui.activity.DailyFeedActivity;
+import com.peakmain.gankzhihu.ui.activity.GankWebActivity;
 import com.peakmain.gankzhihu.utils.BannerUtils;
 import com.peakmain.gankzhihu.utils.ScreenUtil;
 import com.youth.banner.Banner;
@@ -53,11 +54,13 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int feed_position;
     List<String> mBannerImage;
     List<String> mBannerTitle;
+
     @Inject
-    public DailyListAdapter(@ContextLife  Context context, Response response) {
+    public DailyListAdapter(@ContextLife Context context, Response response) {
         this.context = context;
         this.response = response;
     }
+
     @Override
     public int getItemViewType(int position) {
         if (response.getBanners() != null) {
@@ -84,6 +87,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return position;
         }
     }
+
     @Override
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
         if (holder instanceof TopStoriesViewHolder) {
@@ -178,6 +182,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
         }
     }
+
     /**
      * footer view
      */
@@ -218,6 +223,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         }
     }
+
     /**
      * TopStories
      */
@@ -225,8 +231,6 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @BindView(R.id.vp_top_stories)
         Banner mBanner;
-        @BindView(R.id.tv_top_title)
-        TextView tv_top_title;
         @BindView(R.id.tv_tag)
         TextView tv_tag;
 
@@ -237,14 +241,18 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bindItem(List<Daily> banners) {
-            mBannerImage=new ArrayList<>();
-            mBannerTitle=new ArrayList<>();
+            mBannerImage = new ArrayList<>();
+            mBannerTitle = new ArrayList<>();
             for (Daily d : banners) {
                 mBannerImage.add(d.getImage());
                 mBannerTitle.add(d.getPost().getTitle());
-                //t.setUrl(d.getPost().getAppview());
             }
-            BannerUtils.initBanner(mBanner,mBannerImage,mBannerTitle);
+            BannerUtils.initBanner(mBanner, mBannerImage, mBannerTitle);
+            mBanner.setOnBannerListener(position -> {
+                ARouter.getInstance().build("/activity/GankWebActivity")
+                        .withString(GankWebActivity.GANK_URL,  banners.get(position).getPost().getAppview())
+                        .navigation();
+            });
         }
     }
 
@@ -274,8 +282,9 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             tv_headline_3.setText(headLines.get(2).getDescription());
 
             card_headline.setOnClickListener(v -> {
-              /*  Intent intent = GankWebActivity.newIntent(context, daily.getPost().getAppview());
-                context.startActivity(intent);*/
+                ARouter.getInstance().build("/activity/GankWebActivity")
+                        .withString(GankWebActivity.GANK_URL,  daily.getPost().getAppview())
+                        .navigation();
             });
         }
     }
@@ -311,8 +320,9 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Glide.with(context).load(daily.getImage()).centerCrop().into(iv_feed_1_icon);
 
             card_feed_1.setOnClickListener(v -> {
-             /*   Intent intent = GankWebActivity.newIntent(context, daily.getPost().getAppview());
-                context.startActivity(intent);*/
+                ARouter.getInstance().build("/activity/GankWebActivity")
+                        .withString(GankWebActivity.GANK_URL, daily.getPost().getAppview())
+                        .navigation();
             });
         }
     }
@@ -351,14 +361,19 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (daily.getType() == 0) {
                 Glide.with(context).load(R.drawable.feed_0_icon).centerCrop().into(iv_feed_0_type);
                 card_layout.setOnClickListener(v -> {
-                   /* Intent intent = DailyFeedActivity.newIntent(context, daily.getPost().getId(), daily.getPost().getDescription(), daily.getPost().getTitle(), daily.getImage());
-                    context.startActivity(intent);*/
+                    ARouter.getInstance().build("/activity/DailyFeedActivity")
+                            .withString(DailyFeedActivity.FEED_ID, daily.getPost().getId())
+                            .withString(DailyFeedActivity.FEED_DESC, daily.getPost().getDescription())
+                            .withString(DailyFeedActivity.FEED_TITLE, daily.getPost().getTitle())
+                            .withString(DailyFeedActivity.FEED_IMG, daily.getImage())
+                            .navigation();
                 });
             } else if (daily.getType() == 2) {
                 Glide.with(context).load(R.drawable.feed_1_icon).centerCrop().into(iv_feed_0_type);
                 card_layout.setOnClickListener(v -> {
-                  /*  Intent intent = GankWebActivity.newIntent(context, daily.getPost().getAppview());
-                    context.startActivity(intent);*/
+                    ARouter.getInstance().build("/activity/GankWebActivity")
+                            .withString(GankWebActivity.GANK_URL, daily.getPost().getAppview())
+                            .navigation();
                 });
             }
 

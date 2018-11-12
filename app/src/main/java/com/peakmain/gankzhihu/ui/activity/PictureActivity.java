@@ -9,6 +9,8 @@ import android.support.v4.view.ViewCompat;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.base.BaseActivity;
@@ -28,6 +30,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * mail : 2726449200@qq.com
  * describe ：
  */
+@Route(path = "/activity/PictureActivity")
 public class PictureActivity extends BaseActivity {
     public static final String IMG_URL = "img_url";
     public static final String IMG_DESC = "img_desc";
@@ -77,7 +80,7 @@ public class PictureActivity extends BaseActivity {
 
     @Override
     protected void initInjector() {
-
+        ARouter.getInstance().inject(this);
     }
 
     @Override

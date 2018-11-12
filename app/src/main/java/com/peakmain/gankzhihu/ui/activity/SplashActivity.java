@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.peakmain.gankzhihu.R;
-import com.peakmain.gankzhihu.ui.MainActivity;
 
 import java.util.Random;
 

@@ -24,4 +24,11 @@
     <color name="refresh_color_1">#536DFE</color>
     <color name="refresh_color_2">#f44336</color>
     <color name="refresh_color_3">#FF4081</color>
+    <color name="progressBarColor">#A199E9</color>
+
+    <!--option card-->
+    <color name="card_1">#9068be</color>
+    <color name="card_2">#1F8AFF</color>
+    <color name="card_3">#28B78D</color>
+    <color name="card_4">#F16745</color>
 </resources>

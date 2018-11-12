@@ -3,7 +3,6 @@ package com.peakmain.gankzhihu.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
@@ -91,11 +90,6 @@ public class GankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
 
-            //点击card
-            card_meizhi.setOnClickListener(v -> {
-               /* Intent intent = GankActivity.newIntent(context,meizhi.getPublishedAt().getTime());
-                context.startActivity(intent);*/
-            });
         }
     }
 }
