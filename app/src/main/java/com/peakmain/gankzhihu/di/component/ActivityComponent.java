@@ -8,6 +8,8 @@ import com.peakmain.gankzhihu.di.scope.ContextLife;
 import com.peakmain.gankzhihu.di.scope.PerActivity;
 import com.peakmain.gankzhihu.ui.activity.DailyFeedActivity;
 import com.peakmain.gankzhihu.ui.activity.GankWebActivity;
+import com.peakmain.gankzhihu.ui.activity.LoginActivity;
+import com.peakmain.gankzhihu.ui.activity.RegisterActivity;
 import com.peakmain.gankzhihu.ui.activity.ZhihuWebActivity;
 
 import dagger.Component;
@@ -35,4 +37,8 @@ public interface ActivityComponent {
     void inject(GankWebActivity gankWebActivity);
 
     void inject(DailyFeedActivity dailyFeedActivity);
+
+    void inject(LoginActivity loginActivity);
+
+    void inject(RegisterActivity registerActivity);
 }

@@ -8,6 +8,7 @@ import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.base.BaseFragment;
 import com.peakmain.gankzhihu.ui.contract.DailyContract;
 import com.peakmain.gankzhihu.ui.presenter.DailyPresenter;
+import com.peakmain.gankzhihu.view.BackTopView;
 
 import butterknife.BindView;
 
@@ -22,6 +23,9 @@ public class DailyFragment extends BaseFragment<DailyPresenter> implements Daily
     private LinearLayoutManager mLayoutManager;
     @BindView(R.id.content_list)
     RecyclerView mRecyclerView;
+    @BindView(R.id.btn_to_top)
+    BackTopView mTopView;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_daily;
@@ -29,7 +33,7 @@ public class DailyFragment extends BaseFragment<DailyPresenter> implements Daily
 
     @Override
     protected void initInjector() {
-         mFragmentComponent.inject(this);
+        mFragmentComponent.inject(this);
     }
 
     @Override
@@ -39,13 +43,17 @@ public class DailyFragment extends BaseFragment<DailyPresenter> implements Daily
         setDataRefresh(true);
         mPresenter.getDailyTimeLine("0");
         mPresenter.scrollRecycleView();
+        //recylerview和按钮进行关联
+        mTopView.setRecyclerView(mRecyclerView);
     }
+
     @Override
     public void requestDataRefresh() {
         super.requestDataRefresh();
         setDataRefresh(true);
         mPresenter.getDailyTimeLine("0");
     }
+
     @Override
     public void setDataRefresh(Boolean refresh) {
         setRefresh(refresh);

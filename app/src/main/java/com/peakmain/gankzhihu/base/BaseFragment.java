@@ -1,5 +1,6 @@
 package com.peakmain.gankzhihu.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ToastUtils;
-
 import com.peakmain.gankzhihu.App;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.di.component.DaggerFragmentComponent;
@@ -20,8 +20,6 @@ import com.peakmain.gankzhihu.di.component.FragmentComponent;
 import com.peakmain.gankzhihu.di.module.FragmentModule;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxFragment;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -52,6 +50,8 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     protected abstract void initInjector();
 
     protected abstract void initView(View view);
+
+    protected ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,11 +84,11 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         inflaterView(inflater, container);
         unbinder = ButterKnife.bind(this, mRootView);
         initView(mRootView);
-        if(mRefreshLayout!=null){
+        if (mRefreshLayout != null) {
             mRefreshLayout.setColorSchemeResources(R.color.refresh_color_1,
-                    R.color.refresh_color_2,R.color.refresh_color_3);
+                    R.color.refresh_color_2, R.color.refresh_color_3);
             mRefreshLayout.setProgressViewOffset(true, 0, (int) TypedValue
-                    .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24,getResources().getDisplayMetrics()));
+                    .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
             mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -98,6 +98,7 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         }
         return mRootView;
     }
+
     //下拉刷新数据
     public void requestDataRefresh() {
 
@@ -105,21 +106,22 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
 
     //设置下拉刷新状态
     public void setRefresh(Boolean refresh) {
-        if(mRefreshLayout==null){
+        if (mRefreshLayout == null) {
             return;
         }
-        if(!refresh){
+        if (!refresh) {
             mRefreshLayout.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(mRefreshLayout!=null)
+                    if (mRefreshLayout != null)
                         mRefreshLayout.setRefreshing(false);
                 }
-            },1000);
-        }else{
+            }, 1000);
+        } else {
             mRefreshLayout.setRefreshing(true);
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -128,12 +130,19 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     }
 
     @Override
-    public void showLoading(){
+    public void showLoading() {
+        mProgressDialog=new ProgressDialog(getActivity());
+        if (mProgressDialog != null) {
+            mProgressDialog.setMessage("正在加载数据....");
+            mProgressDialog.show();
+        }
     }
 
     @Override
     public void hideLoading() {
-
+       if(mProgressDialog.isShowing()){
+           mProgressDialog.dismiss();
+       }
     }
 
     @Override

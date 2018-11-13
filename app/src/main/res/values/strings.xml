@@ -9,6 +9,7 @@
     <string name="desc_api_zhihu"> * 知乎日报 Api 取自 ZhihuDailyPurify</string>
     <string name="desc_api_gank"> * 干货日报 Api 取自 Gank.io</string>
     <string name="desc_api_daily"> * 好奇心日报 Api 是爬取出来的</string>
+    <string name="desc_api_wanandroid"> * 登录,注册 Api 是玩android，鸿洋大神提供的平台</string>
     <string name="desc_dev"> * 整体开发基于 MVP+RxJava+Retrofit+Dagger+ARouter</string>
     <string name="app_dev">开发</string>
     <string name="desc_dev_1"> * 通过 Retrofit 实现了无网缓存</string>
@@ -17,4 +18,16 @@
     <string name="app_content">联系我</string>
     <string name="api_info">以上api只用做学习用途，如有冒犯请联系我删除。</string>
     <string name="load_error">加载错误</string>
+    <string name="navigation_drawer_open">打开菜单</string>
+    <string name="navigation_drawer_close">关闭菜单</string>
+    <string name="nav_switch_night_mode">切换主题</string>
+    <string name="nav_share">分享</string>
+    <string name="prompt_account">账号</string>
+    <string name="prompt_password">密码</string>
+    <string name="sign_in">登录</string>
+    <string name="register_message">还没账号，点击注册</string>
+    <string name="input_account">请输入账号</string>
+    <string name="input_password">请输入密码</string>
+    <string name="input_repassword">请确认输入密码</string>
+    <string name="register">注册</string>
 </resources>

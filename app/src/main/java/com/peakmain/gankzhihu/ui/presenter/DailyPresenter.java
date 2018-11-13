@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.adapter.DailyListAdapter;
 import com.peakmain.gankzhihu.base.BasePresenter;
-import com.peakmain.gankzhihu.bean.daily.Daily;
 import com.peakmain.gankzhihu.bean.daily.DailyTimeLine;
 import com.peakmain.gankzhihu.di.scope.ContextLife;
 import com.peakmain.gankzhihu.net.RetrofitManager;
@@ -45,6 +44,7 @@ public class DailyPresenter extends BasePresenter<DailyContract.View> implements
     @Override
     public void getDailyTimeLine(String num) {
         if(mView!=null){
+            mView.showLoading();
             mRecyclerView = mView.getRecyclerView();
             mLayoutManager = mView.getLayoutManager();
             RetrofitManager.createDailyIo(DailyApi.class)
@@ -61,6 +61,7 @@ public class DailyPresenter extends BasePresenter<DailyContract.View> implements
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
         mView.setDataRefresh(false);
+        mView.hideLoading();
         Toast.makeText(mContext, R.string.load_error, Toast.LENGTH_SHORT).show();
     }
     private void disPlayDailyTimeLine(DailyTimeLine dailyTimeLine, RecyclerView recyclerView) {
@@ -83,6 +84,7 @@ public class DailyPresenter extends BasePresenter<DailyContract.View> implements
             recyclerView.setAdapter(adapter);
         }
         mView.setDataRefresh(false);
+        mView.hideLoading();
     }
     public void scrollRecycleView() {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -31,6 +31,8 @@
         <activity android:name=".ui.activity.ZhihuWebActivity" />
         <activity android:name=".ui.activity.GankWebActivity" />
         <activity android:name=".ui.activity.DailyFeedActivity" />
+        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.RegisterActivity" />
     </application>
 
 </manifest>

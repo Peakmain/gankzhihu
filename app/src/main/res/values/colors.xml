@@ -31,4 +31,7 @@
     <color name="card_2">#1F8AFF</color>
     <color name="card_3">#28B78D</color>
     <color name="card_4">#F16745</color>
+
+    <color name="lineblack">#80ffffff</color>
+    <color name="alpha_pink">#66fce4ec</color>
 </resources>

@@ -1,6 +1,5 @@
 package com.peakmain.gankzhihu.ui.fragment;
 
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,9 +7,9 @@ import android.view.View;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.base.BaseFragment;
-import com.peakmain.gankzhihu.di.component.FragmentComponent;
 import com.peakmain.gankzhihu.ui.contract.ZhiHuContract;
 import com.peakmain.gankzhihu.ui.presenter.ZhihuPresenter;
+import com.peakmain.gankzhihu.view.BackTopView;
 
 import butterknife.BindView;
 
@@ -26,6 +25,8 @@ public class ZhihuFragment extends BaseFragment<ZhihuPresenter> implements ZhiHu
     @BindView(R.id.content_list)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.btn_to_top)
+    BackTopView mTopView;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_zhihu;
@@ -44,6 +45,8 @@ public class ZhihuFragment extends BaseFragment<ZhihuPresenter> implements ZhiHu
         setDataRefresh(true);
         mPresenter.getLatestNews();
         mPresenter.scrollRecyclerView();
+        //recylerview和按钮进行关联
+        mTopView.setRecyclerView(mRecyclerView);
     }
 
     @Override

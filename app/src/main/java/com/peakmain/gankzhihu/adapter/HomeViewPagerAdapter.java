@@ -50,7 +50,7 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
                 case 1:
                     return "干货";
                 case 2:
-                    return "满足你的好奇心";
+                    return "好奇心日报";
             }
         }
         return super.getPageTitle(position);

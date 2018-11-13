@@ -13,16 +13,12 @@ import com.peakmain.gankzhihu.adapter.ZhihuListAdapter;
 import com.peakmain.gankzhihu.base.BasePresenter;
 import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
 import com.peakmain.gankzhihu.di.scope.ContextLife;
-import com.peakmain.gankzhihu.di.scope.PerActivity;
-import com.peakmain.gankzhihu.di.scope.PerFragment;
 import com.peakmain.gankzhihu.net.RetrofitManager;
 import com.peakmain.gankzhihu.net.services.ZhihuApi;
 import com.peakmain.gankzhihu.ui.contract.ZhiHuContract;
 import com.peakmain.gankzhihu.utils.RxSchedulers;
 
 import javax.inject.Inject;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @author ：Peakmain
@@ -57,13 +53,7 @@ public class ZhihuPresenter extends BasePresenter<ZhiHuContract.View> implements
                     .compose(RxSchedulers.<NewsTimeLine>applySchedulers())
                     .subscribe(newsTimeLine -> {
                         disPlayZhihuList(newsTimeLine, mContext, mRecyclerView);
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            mView.showFaild("请求网络错误!");
-                            mView.hideLoading();
-                        }
-                    });
+                    }, this::loadError);
 
         }
     }
@@ -71,6 +61,7 @@ public class ZhihuPresenter extends BasePresenter<ZhiHuContract.View> implements
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
         Toast.makeText(mContext, R.string.load_error, Toast.LENGTH_SHORT).show();
+        mView.hideLoading();
     }
 
     String time;
@@ -92,12 +83,14 @@ public class ZhihuPresenter extends BasePresenter<ZhiHuContract.View> implements
             adapter.notifyDataSetChanged();
         }
         mView.setDataRefresh(false);
+        mView.hideLoading();
         time = mNewsTimeLine.getDate();
     }
 
     @Override
     public void getLatestNews() {
         if (mView != null) {
+            mView.showLoading();
             mRecyclerView = mView.getRecyclerView();
             mLayoutManager = mView.getLayoutManager();
             RetrofitManager.createZhiHuIo(ZhihuApi.class)

@@ -3,7 +3,6 @@ package com.peakmain.gankzhihu.net;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.orhanobut.logger.Logger;
 import com.peakmain.gankzhihu.App;
-import com.peakmain.gankzhihu.net.services.GankApi;
 
 import java.io.File;
 import java.io.IOException;
@@ -130,7 +129,17 @@ public class RetrofitManager {
         }
         return mOkHttpClient;
     }
-
+    /**
+     * 获取玩android的service
+     */
+    public static <T> T create(Class<T> clazz) {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.REQUEST_BASE_URL)
+                .client(getOkHttpClient())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(clazz);
+    }
     /**
      * 获取Service
      *

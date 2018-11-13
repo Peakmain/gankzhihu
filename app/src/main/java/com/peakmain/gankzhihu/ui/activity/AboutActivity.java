@@ -40,7 +40,6 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initView() {
         initToolbar();
-
         tv_github.setOnClickListener(this);
         tv_blog.setOnClickListener(this);
     }

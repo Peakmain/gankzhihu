@@ -54,6 +54,7 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
     @Override
     public void getGankData() {
         if (mView != null) {
+            mView.showLoading();
             mRecyclerView = mView.getRecyclerView();
             mLayoutManager = mView.getLayoutManager();
             if (isLoadMore) {
@@ -66,6 +67,7 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
                     .compose(RxSchedulers.applySchedulers())
                     .subscribe(meizhi1 -> {
                         displayMeizhi( meizhi1.getResults(), mRecyclerView);
+                        mView.hideLoading();
                     }, this::loadError);
         }
     }

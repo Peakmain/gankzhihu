@@ -1,5 +1,6 @@
 package com.peakmain.gankzhihu.base;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -47,6 +48,8 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
 
     protected abstract void initView();
 
+    protected ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,30 +67,38 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
 
     @Override
     public void showLoading() {
-
+        mProgressDialog = new ProgressDialog(this);
+        if (mProgressDialog != null) {
+            mProgressDialog.setMessage("正在加载数据");
+            mProgressDialog.show();
+        }
     }
 
     @Override
     public void hideLoading() {
-
+        if (mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
+
     //设置下拉刷新状态
     public void setRefresh(Boolean refresh) {
-        if(mRefreshLayout==null){
+        if (mRefreshLayout == null) {
             return;
         }
-        if(!refresh){
+        if (!refresh) {
             mRefreshLayout.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(mRefreshLayout!=null)
+                    if (mRefreshLayout != null)
                         mRefreshLayout.setRefreshing(false);
                 }
-            },1000);
-        }else{
+            }, 1000);
+        } else {
             mRefreshLayout.setRefreshing(true);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -153,6 +164,7 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
             setupSwipeRefresh();
         }
     }
+
     private void setupSwipeRefresh() {
         mRefreshLayout = findViewById(R.id.swipe_refresh);
         if (mRefreshLayout != null) {
@@ -163,8 +175,10 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
             mRefreshLayout.setOnRefreshListener(this::requestDataRefresh);
         }
     }
+
     public void requestDataRefresh() {
     }
+
     /**
      * 判断子Activity是否需要刷新功能
      *
@@ -173,6 +187,7 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     public Boolean isSetRefresh() {
         return false;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
