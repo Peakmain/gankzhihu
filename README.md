@@ -13,7 +13,6 @@
 * GitHub 项目地址 : [https://github.com/RangersEZ/gankzhihu](https://github.com/RangersEZ/gankzhihu)
 
 ###效果图
-![架构图.png](https://upload-images.jianshu.io/upload_images/9387746-6b7877c50d0419aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![效果1.png](https://upload-images.jianshu.io/upload_images/9387746-0b3d3d2dc28d2a1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![效果2.png](https://upload-images.jianshu.io/upload_images/9387746-ac46f1336ea56ce0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![效果3.png](https://upload-images.jianshu.io/upload_images/9387746-e6998a19b9edad1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
