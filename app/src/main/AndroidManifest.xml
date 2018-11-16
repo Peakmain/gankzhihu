@@ -25,6 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.GuideActivity" android:theme="@style/AppTheme.FullTheme"/>
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.PictureActivity" />

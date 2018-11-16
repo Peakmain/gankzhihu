@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.peakmain.gankzhihu.R;
 
 import java.util.Random;
@@ -37,7 +38,12 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void goToMain() {
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        boolean isFirst = SPUtils.getInstance().getBoolean("isFirst");
+        if(isFirst){
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        }else {
+            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+        }
         finish();
     }
 
