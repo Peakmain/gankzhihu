@@ -40,6 +40,7 @@ public class DailyFeedPresenter extends BasePresenter<DailyFeedContract.View> im
     private boolean isLoadMore = false; // 是否加载过更多
     private DailyTimeLine timeLine;
     private Handler mHandler = new Handler(Looper.getMainLooper());
+
     @Inject
     public DailyFeedPresenter(@ContextLife Context context) {
         this.mContext = context;
@@ -48,39 +49,40 @@ public class DailyFeedPresenter extends BasePresenter<DailyFeedContract.View> im
 
     @Override
     public void getDailyFeedDetail(String id, String num) {
-         this.mId=id;
-         if(mView!=null){
-            mRecyclerView= mView.getRecyclerView();
-            mLayoutManager=mView.getLayoutManager();
-             RetrofitManager.createDailyIo(DailyApi.class)
-                     .getDailyFeedDetail(id,num)
-                     .compose(mView.bindToLife())
-                     .compose(RxSchedulers.applySchedulers())
-                     .subscribe(dailyTimeLine -> {
-                         disPlayDailyTimeLine(mContext,dailyTimeLine);
-                     },this::loadError);
-         }
+        this.mId = id;
+        if (mView != null) {
+            mRecyclerView = mView.getRecyclerView();
+            mLayoutManager = mView.getLayoutManager();
+            RetrofitManager.createDailyIo(DailyApi.class)
+                    .getDailyFeedDetail(id, num)
+                    .compose(mView.bindToLife())
+                    .compose(RxSchedulers.applySchedulers())
+                    .subscribe(dailyTimeLine -> {
+                        disPlayDailyTimeLine(mContext, dailyTimeLine);
+                    }, this::loadError);
+        }
     }
 
     private void disPlayDailyTimeLine(Context context, DailyTimeLine dailyTimeLine) {
-         if(dailyTimeLine.getResponse().getLast_key()!=null){
-             next_pager=dailyTimeLine.getResponse().getLast_key();
-             has_more=dailyTimeLine.getResponse().getHas_more();
-         }
-         if(isLoadMore){
-             if (dailyTimeLine.getResponse().getOptions() == null) {
-                 mView.setDataRefresh(false);
-                 return;
-             } else {
-                 timeLine.getResponse().getOptions().addAll(dailyTimeLine.getResponse().getOptions());
-             }
-             adapter.notifyDataSetChanged();
-         }else{
-             timeLine = dailyTimeLine;
-             adapter = new DailyFeedAdapter(context, timeLine.getResponse().getOptions());
-             mRecyclerView.setAdapter(adapter);
-         }
+        if (dailyTimeLine.getResponse().getLast_key() != null) {
+            next_pager = dailyTimeLine.getResponse().getLast_key();
+            has_more = dailyTimeLine.getResponse().getHas_more();
+        }
+        if (isLoadMore) {
+            if (dailyTimeLine.getResponse().getOptions() == null) {
+                mView.setDataRefresh(false);
+                return;
+            } else {
+                timeLine.getResponse().getOptions().addAll(dailyTimeLine.getResponse().getOptions());
+            }
+            adapter.notifyDataSetChanged();
+        } else {
+            timeLine = dailyTimeLine;
+            adapter = new DailyFeedAdapter(context, timeLine.getResponse().getOptions());
+            mRecyclerView.setAdapter(adapter);
+        }
         mView.setDataRefresh(false);
+        mView.hideLoading();
     }
 
     private void loadError(Throwable throwable) {
@@ -88,6 +90,7 @@ public class DailyFeedPresenter extends BasePresenter<DailyFeedContract.View> im
         mView.setDataRefresh(false);
         Toast.makeText(mContext, R.string.load_error, Toast.LENGTH_SHORT).show();
     }
+
     public void scrollRecycleView() {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -101,10 +104,10 @@ public class DailyFeedPresenter extends BasePresenter<DailyFeedContract.View> im
                     }
                     if (lastVisibleItem + 1 == mLayoutManager
                             .getItemCount()) {
-                        if(has_more.equals("true")) {
+                        if (has_more.equals("true")) {
                             isLoadMore = true;
                             mView.setDataRefresh(true);
-                            mHandler.postDelayed(() -> getDailyFeedDetail(mId,next_pager), 1000);
+                            mHandler.postDelayed(() -> getDailyFeedDetail(mId, next_pager), 1000);
                         }
                     }
                 }

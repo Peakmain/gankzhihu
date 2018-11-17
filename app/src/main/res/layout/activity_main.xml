@@ -5,39 +5,37 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:openDrawer="start"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activity.MainActivity">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include layout="@layout/activity_toolbar" />
 
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            style="@style/Widget.Design.BottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                app:tabIndicatorColor="@color/TabIndicatorColor"
-                app:tabSelectedTextColor="@color/TabSelectColor"
-                app:tabTextAppearance="@style/TabLayoutTextAppearance"
-                app:tabTextColor="@color/TabTextColor" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/content_viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#fff" />
-
-        </LinearLayout>
-
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            app:elevation="16dp"
+            app:itemIconTint="@drawable/nav_item_color_state"
+            app:itemTextColor="@drawable/nav_item_color_state"
+            app:layout_behavior="com.peakmain.gankzhihu.behavior.BottomNavigationBehavior"
+            app:menu="@menu/bottom_navigation_main" />
     </android.support.design.widget.CoordinatorLayout>
     <!--侧滑控件-->
     <android.support.design.widget.NavigationView

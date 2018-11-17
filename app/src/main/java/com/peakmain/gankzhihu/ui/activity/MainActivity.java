@@ -1,9 +1,9 @@
 package com.peakmain.gankzhihu.ui.activity;
 
 import android.content.Intent;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.TextUtils;
@@ -18,15 +18,9 @@ import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.peakmain.gankzhihu.R;
-import com.peakmain.gankzhihu.adapter.HomeViewPagerAdapter;
 import com.peakmain.gankzhihu.base.BaseActivity;
-import com.peakmain.gankzhihu.base.BaseFragment;
-import com.peakmain.gankzhihu.ui.fragment.DailyFragment;
-import com.peakmain.gankzhihu.ui.fragment.GankFragment;
-import com.peakmain.gankzhihu.ui.fragment.ZhihuFragment;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.peakmain.gankzhihu.ui.fragment.JokeFragment;
+import com.peakmain.gankzhihu.ui.fragment.NewsFragment;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -34,16 +28,19 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 @Route(path = "/activity/MainActivity")
 public class MainActivity extends BaseActivity {
-    @BindView(R.id.tabLayout)
-    TabLayout mTabLayout;
-    @BindView(R.id.content_viewPager)
-    ViewPager mViewPager;
+
     @BindView(R.id.navigation_view)
     NavigationView mNavigationView;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView mBottomNavigationView;
     private View mHeaderView;
-
+    private static final int FRAGMENT_NEWS = 0;
+    private static final int FRAGMENT_JOKE = 1;
+    private NewsFragment mNewsFragment;
+    private JokeFragment mJokeFragment;
+    private int position;//当前选中的位置
 
     @Override
     protected int getLayoutId() {
@@ -57,7 +54,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        initTabView();
+        showFragment(FRAGMENT_NEWS);
+
         //获取头部
         mHeaderView = mNavigationView.getHeaderView(0);
         //设置点击事件
@@ -86,24 +84,59 @@ public class MainActivity extends BaseActivity {
         String account = SPUtils.getInstance().getString("account");
         if (!TextUtils.isEmpty(account)) {
             userName.setText(account);
-        }else{
+        } else {
             userName.setText("尚未登录");
+        }
+        mBottomNavigationView.setOnNavigationItemSelectedListener(this::onOptionsItemSelected);
+    }
+
+    private void showFragment(int index) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        hintFragment(ft);
+        position = index;
+        switch (index) {
+            case FRAGMENT_NEWS://新闻
+                mToolbar.setTitle(R.string.title_news);
+                /**
+                 * 如果Fragment为空，就新建一个实例
+                 * 如果不为空，就将它从栈中显示出来
+                 */
+                if (mNewsFragment == null) {
+                    mNewsFragment = mNewsFragment.getInstance();
+                    ft.add(R.id.container, mNewsFragment, NewsFragment.class.getName());
+                } else {
+                    ft.show(mNewsFragment);
+                }
+                break;
+            case FRAGMENT_JOKE:
+                mToolbar.setTitle(R.string.title_jokes);
+                if (mJokeFragment == null) {
+                    mJokeFragment = new JokeFragment();
+                    ft.add(R.id.container, mJokeFragment, JokeFragment.class.getName());
+                } else {
+                    ft.show(mJokeFragment);
+                }
+                break;
+        }
+        ft.commit();
+    }
+
+    /**
+     * 隐藏fragment
+     *
+     * @param ft
+     */
+    private void hintFragment(FragmentTransaction ft) {
+        // 如果不为空，就先隐藏起来
+        if (mNewsFragment != null) {
+            ft.hide(mNewsFragment);
+        }
+        if(mJokeFragment!=null){
+            ft.hide(mJokeFragment);
         }
 
     }
 
-
-
-    private void initTabView() {
-        List<BaseFragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new ZhihuFragment());
-        fragmentList.add(new GankFragment());
-        fragmentList.add(new DailyFragment());
-        mViewPager.setOffscreenPageLimit(3);//防止重复创建和销毁，造成内存溢出
-        //设置适配器
-        mViewPager.setAdapter(new HomeViewPagerAdapter(getSupportFragmentManager(), fragmentList, "home_view_pager"));
-        mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -127,6 +160,12 @@ public class MainActivity extends BaseActivity {
                         .putExtra(Intent.EXTRA_TEXT, "今日新闻:" + "https://github.com/RangersEZ/gankzhihu");
                 startActivity(Intent.createChooser(shareIntent, "分享"));
                 mDrawerLayout.closeDrawers();
+                break;
+            case R.id.action_news:
+                showFragment(FRAGMENT_NEWS);
+                break;
+            case R.id.action_joke:
+                showFragment(FRAGMENT_JOKE);
                 break;
         }
         return super.onOptionsItemSelected(item);

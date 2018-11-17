@@ -13,4 +13,6 @@ public class Constant {
     public static final String DAILY_BASE_URL = "http://app3.qdaily.com/app3/";
 
     public static final String REQUEST_BASE_URL = "http://wanandroid.com/";
+
+    public static final String JOKE_BASE_URL = "http://i.jandan.net/";
 }

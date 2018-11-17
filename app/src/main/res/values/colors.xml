@@ -34,4 +34,9 @@
 
     <color name="lineblack">#80ffffff</color>
     <color name="alpha_pink">#66fce4ec</color>
+
+    <color name="color_gray">#9a9a9a</color>
+     <!--底部的颜色-->
+    <color name="bottomColor">#a23456</color>
+    <color name="textColorPrimary">#616161</color>
 </resources>

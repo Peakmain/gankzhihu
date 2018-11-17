@@ -40,7 +40,7 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
     private RecyclerView mRecyclerView;
     private GridLayoutManager mLayoutManager;
     private List<Gank> list;
-    private int page = 1;
+    private int page = 2;
     private GankListAdapter adapter;
     private int lastVisibleItem;
     private boolean isLoadMore = false; // 是否加载过更多
@@ -52,7 +52,7 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
     }
 
     @Override
-    public void getGankData() {
+    public void getGankData(int pageNum) {
         if (mView != null) {
             mView.showLoading();
             mRecyclerView = mView.getRecyclerView();
@@ -61,13 +61,12 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
                 page = page + 1;
             }
             GankApi gankApi = RetrofitManager.createGankIo(GankApi.class);
-            Observable.zip(gankApi.getMeizhiData(page)
-                    , gankApi.getVideoData(page), this::creatDesc)
+            Observable.zip(gankApi.getMeizhiData(pageNum)
+                    , gankApi.getVideoData(pageNum), this::creatDesc)
                     .compose(mView.bindToLife())
                     .compose(RxSchedulers.applySchedulers())
                     .subscribe(meizhi1 -> {
-                        displayMeizhi( meizhi1.getResults(), mRecyclerView);
-                        mView.hideLoading();
+                        displayMeizhi( meizhi1.getResults());
                     }, this::loadError);
         }
     }
@@ -80,7 +79,7 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
     }
 
     //展示妹子数据
-    private void displayMeizhi( List<Gank> meiZhiList, RecyclerView recyclerView) {
+    private void displayMeizhi( List<Gank> meiZhiList) {
         if (isLoadMore) {
             if (meiZhiList == null) {
                 mView.setDataRefresh(false);
@@ -92,10 +91,11 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
         } else {
             list = meiZhiList;
             adapter = new GankListAdapter(mContext, list);
-            recyclerView.setAdapter(adapter);
+            mRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
         mView.setDataRefresh(false);
+        mView.hideLoading();
     }
 
     //滚动
@@ -111,7 +111,7 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
                     if (lastVisibleItem + 1 == mLayoutManager.getItemCount()) {
                         mView.setDataRefresh(true);
                         isLoadMore = true;
-                        mHandler.postDelayed(() -> getGankData(), 1000);
+                        mHandler.postDelayed(() -> getGankData(page), 1000);
                     }
                 }
 

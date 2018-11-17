@@ -24,6 +24,7 @@ public class GankFragment extends BaseFragment<GankPresenter> implements GankCon
 
     @BindView(R.id.content_list)
     RecyclerView mRecyclerView;
+    private int page=1;
 
     @Override
     protected int getLayoutId() {
@@ -41,7 +42,7 @@ public class GankFragment extends BaseFragment<GankPresenter> implements GankCon
         mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         setDataRefresh(true);
-        mPresenter.getGankData();
+        mPresenter.getGankData(page);
         mPresenter.scrollRecycleView();
     }
 
@@ -49,7 +50,7 @@ public class GankFragment extends BaseFragment<GankPresenter> implements GankCon
     public void requestDataRefresh() {
         super.requestDataRefresh();
         setDataRefresh(true);
-        mPresenter.getGankData();
+        mPresenter.getGankData(page);
     }
 
     @Override

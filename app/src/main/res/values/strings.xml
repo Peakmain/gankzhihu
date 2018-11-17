@@ -30,4 +30,19 @@
     <string name="input_password">请输入密码</string>
     <string name="input_repassword">请确认输入密码</string>
     <string name="register">注册</string>
+
+
+    <string name="loading_text">加载中&#8230;</string>
+    <string name="no_network">请检查网络后点击重新加载</string>
+    <string name="data_error">数据获取失败(ㄒoㄒ)~~</string>
+    <string name="empty_view_hint">暂时木有内容呀~~</string>
+
+    <string name="no_data">数据为空</string>
+    <string name="loading">正在加载</string>
+    <string name="net_error">网络错误</string>
+    <string name="show_content">显示内容</string>
+
+    <string name="title_news">新闻</string>
+    <string name="title_video">视频</string>
+    <string name="title_jokes">段子</string>
 </resources>

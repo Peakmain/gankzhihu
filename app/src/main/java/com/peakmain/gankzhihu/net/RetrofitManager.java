@@ -129,6 +129,7 @@ public class RetrofitManager {
         }
         return mOkHttpClient;
     }
+
     /**
      * 获取玩android的service
      */
@@ -140,6 +141,7 @@ public class RetrofitManager {
                 .build();
         return retrofit.create(clazz);
     }
+
     /**
      * 获取Service
      *
@@ -176,6 +178,7 @@ public class RetrofitManager {
 
     /**
      * 获取 好奇心日报
+     *
      * @param clazz
      * @param <T>
      * @return
@@ -185,6 +188,21 @@ public class RetrofitManager {
                 .client(getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build();
+        return retrofit.create(clazz);
+    }
+
+    /**
+     * 获取 段子
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T createJokeIo(Class<T> clazz) {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.JOKE_BASE_URL)
+                .client(getOkHttpClient())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         return retrofit.create(clazz);
     }
 }

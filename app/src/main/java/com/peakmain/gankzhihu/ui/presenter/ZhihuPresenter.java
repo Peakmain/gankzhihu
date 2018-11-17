@@ -6,9 +6,8 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
-import com.peakmain.gankzhihu.R;
+import com.blankj.utilcode.util.NetworkUtils;
 import com.peakmain.gankzhihu.adapter.ZhihuListAdapter;
 import com.peakmain.gankzhihu.base.BasePresenter;
 import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
@@ -60,8 +59,11 @@ public class ZhihuPresenter extends BasePresenter<ZhiHuContract.View> implements
 
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
-        Toast.makeText(mContext, R.string.load_error, Toast.LENGTH_SHORT).show();
-        mView.hideLoading();
+        if(!NetworkUtils.isConnected()){
+            mView.showNoNet();
+        }
+        mView.showFaild(throwable.getMessage());
+       // mView.hideLoading();
     }
 
     String time;

@@ -8,10 +8,10 @@ import com.peakmain.gankzhihu.di.scope.ContextLife;
 import com.peakmain.gankzhihu.di.scope.PerFragment;
 import com.peakmain.gankzhihu.ui.fragment.DailyFragment;
 import com.peakmain.gankzhihu.ui.fragment.GankFragment;
+import com.peakmain.gankzhihu.ui.fragment.JokeFragment;
 import com.peakmain.gankzhihu.ui.fragment.ZhihuFragment;
 
 import dagger.Component;
-import dagger.Provides;
 
 /**
  * @author ：Peakmain
@@ -36,4 +36,6 @@ public interface FragmentComponent {
     void inject(GankFragment gankFragment);
 
     void inject(DailyFragment dailyFragment);
+
+    void inject(JokeFragment jokeFragment);
 }
