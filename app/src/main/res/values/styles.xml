@@ -45,10 +45,6 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="WindowAnimationFadeInOut">
-        <item name="android:windowEnterAnimation">@anim/fade_in</item>
-        <item name="android:windowExitAnimation">@anim/fade_out</item>
-    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="action_bar">
         <item name="android:background">?attr/colorPrimary</item>
