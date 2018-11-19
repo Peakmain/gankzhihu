@@ -27,6 +27,7 @@
 ![段子.png](https://upload-images.jianshu.io/upload_images/9387746-225971926055550a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 - 视频内容
+
 ![视频.png](https://upload-images.jianshu.io/upload_images/9387746-d94a19990c4989e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![gif效果图.gif](https://upload-images.jianshu.io/upload_images/9387746-d0361ef5753834df.gif?imageMogr2/auto-orient/strip)
