@@ -23,7 +23,8 @@
 
 - 新增段子内容
 
-![段子界面.png](https://upload-images.jianshu.io/upload_images/9387746-ab4a19761fd5d5f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![段子.png](https://upload-images.jianshu.io/upload_images/9387746-225971926055550a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 - 视频内容
 ![视频.png](https://upload-images.jianshu.io/upload_images/9387746-d94a19990c4989e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
