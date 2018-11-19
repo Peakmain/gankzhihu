@@ -8,7 +8,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.peakmain.gankzhihu"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -73,4 +73,8 @@ dependencies {
     implementation 'com.youth.banner:banner:1.4.10'
 
     implementation 'com.github.chrisbanes.photoview:library:1.2.3'
+
+    implementation 'cn.jzvd:jiaozivideoplayer:6.4.0'
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
 }

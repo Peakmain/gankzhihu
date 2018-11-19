@@ -36,6 +36,7 @@ public class JokePresenter extends BasePresenter<JokeContract.View> implements J
     private Context mContext;
     private int lastVisibleItem;//最后一个可见
     private Handler mHandler = new Handler(Looper.getMainLooper());
+
     @Inject
     public JokePresenter(@ContextLife Context context) {
         mContext = context;
@@ -56,7 +57,7 @@ public class JokePresenter extends BasePresenter<JokeContract.View> implements J
                     .compose(mView.bindToLife())
                     .subscribe(jokeBean -> {
                         displayJokeList(jokeBean);
-                    },this::loadError);
+                    }, this::loadError);
         }
     }
 
@@ -81,7 +82,7 @@ public class JokePresenter extends BasePresenter<JokeContract.View> implements J
             mAdapter.notifyDataSetChanged();
         } else {
             this.mJokeBean = jokeBean;
-            mAdapter = new JokesAdapter(mContext,mJokeBean.getComments());
+            mAdapter = new JokesAdapter(mContext, mJokeBean.getComments());
             mRecyclerView.setAdapter(mAdapter);
         }
         mView.setDataRefresh(false);
@@ -91,7 +92,7 @@ public class JokePresenter extends BasePresenter<JokeContract.View> implements J
     /**
      * recyclerView滚动监听事件
      */
-    public void scrollRecyclerView(){
+    public void scrollRecyclerView() {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -99,16 +100,18 @@ public class JokePresenter extends BasePresenter<JokeContract.View> implements J
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     lastVisibleItem = mLayoutManager
                             .findLastVisibleItemPosition();
-                    if(mLayoutManager.getItemCount()==1){
+                    if (mLayoutManager.getItemCount() == 1) {
                         mAdapter.updateLoadStatus(mAdapter.LOAD_NONE);
                         return;
                     }
                 }
-                if(lastVisibleItem+1==mLayoutManager.getItemCount()){
-                    mAdapter.updateLoadStatus(mAdapter.LOAD_PULL_TO);
-                    isLoadMore = true;
-                    mAdapter.updateLoadStatus(mAdapter.LOAD_MORE);
-                    mHandler.postDelayed(() -> getDetailData(pageNum), 1000);
+                if (lastVisibleItem + 1 == mLayoutManager.getItemCount()) {
+                    if (mAdapter != null) {
+                        mAdapter.updateLoadStatus(mAdapter.LOAD_PULL_TO);
+                        isLoadMore = true;
+                        mAdapter.updateLoadStatus(mAdapter.LOAD_MORE);
+                        mHandler.postDelayed(() -> getDetailData(pageNum), 1000);
+                    }
                 }
             }
 
@@ -119,11 +122,13 @@ public class JokePresenter extends BasePresenter<JokeContract.View> implements J
             }
         });
     }
+
     @Override
     public void detachView() {
         super.detachView();
         mHandler.removeCallbacksAndMessages(null);
     }
+
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
         mView.hideLoading();

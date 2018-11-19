@@ -19,8 +19,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.base.BaseActivity;
+import com.peakmain.gankzhihu.rx.RegisterBus;
+import com.peakmain.gankzhihu.rx.RxBus;
 import com.peakmain.gankzhihu.ui.fragment.JokeFragment;
 import com.peakmain.gankzhihu.ui.fragment.NewsFragment;
+import com.peakmain.gankzhihu.ui.fragment.VideoFragment;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -38,9 +41,12 @@ public class MainActivity extends BaseActivity {
     private View mHeaderView;
     private static final int FRAGMENT_NEWS = 0;
     private static final int FRAGMENT_JOKE = 1;
+    private static final int FRAGMENT_VIDEO = 2;
     private NewsFragment mNewsFragment;
     private JokeFragment mJokeFragment;
+    private VideoFragment mVideoFragment;
     private int position;//当前选中的位置
+    private TextView mUserName;
 
     @Override
     protected int getLayoutId() {
@@ -55,7 +61,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         showFragment(FRAGMENT_NEWS);
-
+        RxBus.getInstance().register(this);
         //获取头部
         mHeaderView = mNavigationView.getHeaderView(0);
         //设置点击事件
@@ -72,7 +78,7 @@ public class MainActivity extends BaseActivity {
         //登录
         avatarImageView.setOnClickListener(view -> ARouter.getInstance().build("/activity/LoginActivity")
                 .navigation());
-        TextView userName = mHeaderView.findViewById(R.id.tv_user_name);
+        mUserName = mHeaderView.findViewById(R.id.tv_user_name);
         //毛玻璃效果
         Glide.with(this).load(R.mipmap.avatar)
                 .bitmapTransform(new BlurTransformation(this, 25), new CenterCrop(this))
@@ -83,11 +89,18 @@ public class MainActivity extends BaseActivity {
         //获取是否登录
         String account = SPUtils.getInstance().getString("account");
         if (!TextUtils.isEmpty(account)) {
-            userName.setText(account);
+            mUserName.setText(account);
         } else {
-            userName.setText("尚未登录");
+            mUserName.setText("尚未登录");
         }
         mBottomNavigationView.setOnNavigationItemSelectedListener(this::onOptionsItemSelected);
+    }
+
+    @RegisterBus
+    public void setUserInfo(String userName) {
+        if (mUserName != null) {
+            mUserName.setText(userName);
+        }
     }
 
     private void showFragment(int index) {
@@ -117,6 +130,14 @@ public class MainActivity extends BaseActivity {
                     ft.show(mJokeFragment);
                 }
                 break;
+            case FRAGMENT_VIDEO:
+                mToolbar.setTitle(R.string.title_video);
+                if (mVideoFragment == null) {
+                    mVideoFragment = new VideoFragment();
+                    ft.add(R.id.container, mVideoFragment, VideoFragment.class.getName());
+                }else{
+                    ft.show(mVideoFragment);
+                }
         }
         ft.commit();
     }
@@ -131,8 +152,11 @@ public class MainActivity extends BaseActivity {
         if (mNewsFragment != null) {
             ft.hide(mNewsFragment);
         }
-        if(mJokeFragment!=null){
+        if (mJokeFragment != null) {
             ft.hide(mJokeFragment);
+        }
+        if (mVideoFragment != null) {
+            ft.hide(mVideoFragment);
         }
 
     }
@@ -167,8 +191,17 @@ public class MainActivity extends BaseActivity {
             case R.id.action_joke:
                 showFragment(FRAGMENT_JOKE);
                 break;
+            case R.id.action_video:
+                showFragment(FRAGMENT_VIDEO);
+                break;
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxBus.getInstance().unregister(this);
     }
 }

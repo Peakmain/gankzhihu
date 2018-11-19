@@ -5,7 +5,7 @@
     <string name="about_me">关于我</string>
     <string name="headline">大公司头条</string>
     <string name="one_word">站在巨人的肩膀上，你将走的更远。</string>
-    <string name="desc"> * 知乎，干货集中营，好奇心日报</string>
+    <string name="desc"> * 知乎，干货集中营，好奇心日报,煎蛋，百思不得姐</string>
     <string name="desc_api_zhihu"> * 知乎日报 Api 取自 ZhihuDailyPurify</string>
     <string name="desc_api_gank"> * 干货日报 Api 取自 Gank.io</string>
     <string name="desc_api_daily"> * 好奇心日报 Api 是爬取出来的</string>
@@ -33,4 +33,13 @@
 
     <string name="title_news">新闻</string>
     <string name="title_jokes">段子</string>
+    <string name="title_video">视频</string>
+    <string name="download">下载</string>
+    <string name="download_commentary">下载(原评论)</string>
+    <string name="classification">分类，例如：搞笑</string>
+    <string name="instance">安装</string>
+    <string name="promote">推广</string>
+    <string name="desc_api_jiandan">段子,来源于煎蛋</string>
+    <string name="desc_api_video">视频,来源于百思不得姐</string>
+    <string name="project_github">https://github.com/Peakmain/gankzhihu</string>
 </resources>

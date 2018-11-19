@@ -20,13 +20,15 @@ import java.util.Random;
  */
 public class SplashActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         startLoadingAnimation();
     }
-    private void startLoadingAnimation(){
+
+    private void startLoadingAnimation() {
         // finish "loading data" in a random time between 1 and 3 seconds
         Random random = new Random();
         mHandler.postDelayed(new Runnable() {
@@ -38,12 +40,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void goToMain() {
-        boolean isFirst = SPUtils.getInstance().getBoolean("isFirst");
-        if(isFirst){
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-        }else {
-            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-        }
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();
     }
 

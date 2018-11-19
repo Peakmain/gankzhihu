@@ -89,12 +89,7 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
                     R.color.refresh_color_2, R.color.refresh_color_3);
             mRefreshLayout.setProgressViewOffset(true, 0, (int) TypedValue
                     .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
-            mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    requestDataRefresh();
-                }
-            });
+            mRefreshLayout.setOnRefreshListener(() -> requestDataRefresh());
         }
         return mRootView;
     }

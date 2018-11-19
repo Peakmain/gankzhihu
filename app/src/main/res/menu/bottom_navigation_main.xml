@@ -13,6 +13,12 @@
         android:icon="@drawable/ic_joke_white_24dp"
         android:title="@string/title_jokes"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_video"
+        android:enabled="true"
+        android:icon="@drawable/ic_video_white_24dp"
+        android:title="@string/title_video"
+        app:showAsAction="ifRoom" />
 
 
 </menu>

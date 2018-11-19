@@ -193,12 +193,29 @@ public class RetrofitManager {
 
     /**
      * 获取 段子
+     *
      * @param clazz
      * @param <T>
      * @return
      */
     public static <T> T createJokeIo(Class<T> clazz) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.JOKE_BASE_URL)
+                .client(getOkHttpClient())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(clazz);
+    }
+
+    /**
+     * 获取 视频
+     *
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T createVideoIo(Class<T> clazz) {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.VIDEO_BASE_URL)
                 .client(getOkHttpClient())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

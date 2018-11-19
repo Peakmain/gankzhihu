@@ -57,11 +57,9 @@ public class ZhihuWebViewPresenter extends BasePresenter<ZhiHuWebContract.View> 
         TextView imgTitle = mView.getImgTitle();
         TextView imgSource = mView.getImgSource();
         WebSettings settings = webView.getSettings();
-        //支持javascript
-        settings.setJavaScriptEnabled(true);
-        //web推荐使用的窗口
-        settings.setUseWideViewPort(true);
-        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptEnabled(true);// 支持JS
+        settings.setBuiltInZoomControls(true);// 显示放大缩小按钮
+        settings.setUseWideViewPort(true);// 支持双击放大缩小
         String head = "<head>\n" +
                 "\t<link rel=\"stylesheet\" href=\"" + news.getCss()[0] + "\"/>\n" +
                 "</head>";

@@ -14,10 +14,12 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.SPUtils;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.base.BaseActivity;
+import com.peakmain.gankzhihu.rx.RxBus;
 import com.peakmain.gankzhihu.ui.presenter.LoginActivityPresenter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Function;
 
 /**
  * @author ：Peakmain
@@ -50,6 +52,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     protected void initInjector() {
         ARouter.getInstance().inject(this);
         mActivityComponent.inject(this);
+        RxBus.getInstance().register(this);
     }
 
     @Override
@@ -86,9 +89,17 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
         showSuccess("登录成功!");
         SPUtils.getInstance().put("account",tvAlAccount.getText().toString().trim());
         SPUtils.getInstance().put("password",tvAlPassword.getText().toString().trim());
-        ARouter.getInstance().build("/activity/MainActivity")
-                .navigation();
+        RxBus.getInstance().chainProcess(new Function() {
+            @Override
+            public Object apply(Object o) throws Exception {
+                return tvAlAccount.getText().toString().trim();
+            }
+        });
         finish();
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxBus.getInstance().unregister(this);
+    }
 }

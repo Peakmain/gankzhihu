@@ -15,4 +15,5 @@ public class Constant {
     public static final String REQUEST_BASE_URL = "http://wanandroid.com/";
 
     public static final String JOKE_BASE_URL = "http://i.jandan.net/";
+    public static final String VIDEO_BASE_URL="http://s.budejie.com/topic/list/jingxuan/1/budejie-android-6.2.8/";
 }
