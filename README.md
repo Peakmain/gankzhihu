@@ -22,7 +22,8 @@
 
 - 新增段子内容
 
-![段子界面.png](https://upload-images.jianshu.io/upload_images/9387746-ab4a19761fd5d5f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![段子.png](https://upload-images.jianshu.io/upload_images/9387746-225971926055550a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 - 视频内容
 
@@ -36,8 +37,11 @@
 ![效果图1.png](https://upload-images.jianshu.io/upload_images/9387746-b6e43e7a60df19eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![效果2.png](https://upload-images.jianshu.io/upload_images/9387746-ac46f1336ea56ce0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![效果3.png](https://upload-images.jianshu.io/upload_images/9387746-e6998a19b9edad1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ![效果图4.gif](https://upload-images.jianshu.io/upload_images/9387746-2fa17f34ec6cef22.gif?imageMogr2/auto-orient/strip)
+
 ![效果图5.gif](https://upload-images.jianshu.io/upload_images/9387746-8093d6173752cf42.gif?imageMogr2/auto-orient/strip)
+
 ![效果图6.gif](https://upload-images.jianshu.io/upload_images/9387746-93ba05a386f97e50.gif?imageMogr2/auto-orient/strip)
 
 
