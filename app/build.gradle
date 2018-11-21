@@ -68,13 +68,11 @@ dependencies {
     implementation 'com.orhanobut:logger:2.2.0'
     //Gilde
     implementation 'com.github.bumptech.glide:glide:3.7.0'
-    implementation'jp.wasabeef:glide-transformations:2.0.1'
-     //banner
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    //banner
     implementation 'com.youth.banner:banner:1.4.10'
-
     implementation 'com.github.chrisbanes.photoview:library:1.2.3'
-
     implementation 'cn.jzvd:jiaozivideoplayer:6.4.0'
-
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
+    implementation project(':baselibrary')
 }

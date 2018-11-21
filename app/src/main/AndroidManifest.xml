@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activity.SplashActivity"
+            android:name=".RefreshLoadActivity"
             android:theme="@style/AppTheme.FullTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

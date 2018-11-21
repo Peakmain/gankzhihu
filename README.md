@@ -7,7 +7,6 @@
 * [RxLifecycle](https://github.com/trello/RxLifecycle)
 * [ARouter](https://github.com/alibaba/ARouter)
 * [Utils](https://github.com/Blankj/AndroidUtilCode)
-* [Banner](https://github.com/youth5201314/banner)
 * [Gilde](https://github.com/bumptech/glide)
 * [PhotoView](https://github.com/chrisbanes/PhotoView)
 * [JiaoZiVideoPlayer](https://github.com/lipangit/JiaoZiVideoPlayer)
@@ -26,12 +25,14 @@
 ![段子界面.png](https://upload-images.jianshu.io/upload_images/9387746-ab4a19761fd5d5f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 - 视频内容
+
 ![视频.png](https://upload-images.jianshu.io/upload_images/9387746-d94a19990c4989e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![gif效果图.gif](https://upload-images.jianshu.io/upload_images/9387746-d0361ef5753834df.gif?imageMogr2/auto-orient/strip)
 
 
 ### 效果图
+
 ![效果图1.png](https://upload-images.jianshu.io/upload_images/9387746-b6e43e7a60df19eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![效果2.png](https://upload-images.jianshu.io/upload_images/9387746-ac46f1336ea56ce0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![效果3.png](https://upload-images.jianshu.io/upload_images/9387746-e6998a19b9edad1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
