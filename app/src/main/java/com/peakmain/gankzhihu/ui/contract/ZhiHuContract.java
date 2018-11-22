@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView;
 import com.peakmain.gankzhihu.base.BaseContract;
 import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
 
@@ -16,9 +17,7 @@ import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
  */
 public class ZhiHuContract {
     public interface View extends BaseContract.BaseView{
-        void setDataRefresh(Boolean refresh);
-        RecyclerView getRecyclerView();
-        LinearLayoutManager getLayoutManager();
+         void disPlayZhihuList(NewsTimeLine newsTimeLine, Context context);
     }
     public interface Presenter extends BaseContract.BasePresenter<View>{
         void getBeforeNews(String time);

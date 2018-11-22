@@ -14,6 +14,11 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.peakmain.baselibrary.banner.BannerView;
+import com.peakmain.baselibrary.recylerview.adapter.CommonRecyclerAdapter;
+import com.peakmain.baselibrary.recylerview.adapter.MultiTypeSupport;
+import com.peakmain.baselibrary.recylerview.adapter.ViewHolder;
+import com.peakmain.baselibrary.recylerview.loader.GlideImageLoader;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
 import com.peakmain.gankzhihu.bean.zhihu.Stories;
@@ -23,6 +28,7 @@ import com.peakmain.gankzhihu.ui.activity.ZhihuWebActivity;
 import com.peakmain.gankzhihu.utils.BannerUtils;
 import com.peakmain.gankzhihu.utils.ScreenUtil;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,200 +45,36 @@ import butterknife.ButterKnife;
  * mail : 2726449200@qq.com
  * describe ：
  */
-public class ZhihuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context context;
-    private NewsTimeLine newsTimeLine;
-    private int status = 1;
-    public static final int LOAD_MORE = 0;
-    public static final int LOAD_PULL_TO = 1;
-    public static final int LOAD_NONE = 2;
-    public static final int LOAD_END = 3;
-    private static final int TYPE_TOP = -1;
-    private static final int TYPE_FOOTER = -2;
-    List<String> mBannerImage;
-    List<String> mBannerTitle;
+public class ZhihuListAdapter extends CommonRecyclerAdapter<Stories> {
+    private Context mContext;
 
     @Inject
-    public ZhihuListAdapter(@ContextLife Context context, NewsTimeLine newsTimeLine) {
-        this.context = context;
-        this.newsTimeLine = newsTimeLine;
-
+    public ZhihuListAdapter(@ContextLife Context context, List<Stories> data) {
+        super(context, data, R.layout.item_zhihu_stories);
+        this.mContext = context;
     }
-
     @Override
-    public int getItemViewType(int position) {
-        if (newsTimeLine.getTop_stories() != null) {
-            if (position == 0) {
-                return TYPE_TOP;
-            } else if (position + 1 == getItemCount()) {
-                return TYPE_FOOTER;
-            } else {
-                return position;
-            }
-        } else if (position + 1 == getItemCount()) {
-            return TYPE_FOOTER;
-        } else {
-            return position;
-        }
-    }
+    public void convert(ViewHolder holder, Stories stories) {
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_TOP) {
-            View rootView = View.inflate(parent.getContext(), R.layout.item_zhihu_top_stories, null);
-            return new TopStoriesViewHolder(rootView);
-        } else if (viewType == TYPE_FOOTER) {
-            View view = View.inflate(parent.getContext(), R.layout.activity_view_footer, null);
-            return new FooterViewHolder(view);
-        } else {
-            View rootView = View.inflate(parent.getContext(), R.layout.item_zhihu_stories, null);
-            return new StoriesViewHolder(rootView);
-        }
-    }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof FooterViewHolder) {
-            FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
-            footerViewHolder.bindItem();
-        } else if (holder instanceof TopStoriesViewHolder) {
-            TopStoriesViewHolder topStoriesViewHolder = (TopStoriesViewHolder) holder;
-            topStoriesViewHolder.bindItem(newsTimeLine.getTop_stories());
-        } else if (holder instanceof StoriesViewHolder) {
-            StoriesViewHolder storiesViewHolder = (StoriesViewHolder) holder;
-            storiesViewHolder.bindItem(newsTimeLine.getStories().get(position - 1));
-        }
-    }
+        ScreenUtil screenUtil = ScreenUtil.instance(mContext);
+        int screenWidth = screenUtil.getScreenWidth();
+        CardView card_stories = holder.getView(R.id.card_stories);
+        card_stories.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-    @Override
-    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
-        if (holder instanceof TopStoriesViewHolder) {
-            TopStoriesViewHolder topStoriesViewHolder = (TopStoriesViewHolder) holder;
-            topStoriesViewHolder.mBanner.startAutoPlay();
-        }
-    }
-
-    @Override
-    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
-        if (holder instanceof TopStoriesViewHolder) {
-            TopStoriesViewHolder topStoriesViewHolder = (TopStoriesViewHolder) holder;
-            topStoriesViewHolder.mBanner.stopAutoPlay();
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return newsTimeLine.getStories().size() + 2;
-    }
-
-    /**
-     * Stories
-     */
-    class StoriesViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.card_stories)
-        CardView card_stories;
-        @BindView(R.id.tv_stories_title)
-        TextView tv_stories_title;
-        @BindView(R.id.iv_stories_img)
-        ImageView iv_stories_img;
-
-        public StoriesViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-
-            ScreenUtil screenUtil = ScreenUtil.instance(context);
-            int screenWidth = screenUtil.getScreenWidth();
-            card_stories.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        }
-
-        public void bindItem(Stories stories) {
-            tv_stories_title.setText(stories.getTitle());
-            String[] images = stories.getImages();
-            Glide.with(context).load(images[0]).centerCrop().into(iv_stories_img);
-            /*context.startActivity(ZhihuWebActivity.newIntent(context,stories.getId()))*/
-            card_stories.setOnClickListener(v ->
-                    ARouter.getInstance().build("/activity/ZhihuWebActivity")
-                            .withString(ZhihuWebActivity.ID, stories.getId())
-                            .navigation());
-        }
-    }
-
-    /**
-     * TopStories
-     */
-    class TopStoriesViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.vp_top_stories)
-        Banner mBanner;
-
-        public TopStoriesViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-        public void bindItem(List<TopStories> topList) {
-            mBannerImage = new ArrayList<>();
-            mBannerTitle = new ArrayList<>();
-            for (TopStories topStories : topList) {
-                mBannerImage.add(topStories.getImage());
-                mBannerTitle.add(topStories.getTitle());
-            }
-            BannerUtils.initBanner(mBanner, mBannerImage, mBannerTitle);
-            //下标从0开始
-            mBanner.setOnBannerListener(position -> {
+        holder.setText(R.id.tv_stories_title, stories.getTitle());
+        String[] images = stories.getImages();
+        holder.setImageByUrl(R.id.iv_stories_img, new GlideImageLoader(images[0]));
+        /*context.startActivity(ZhihuWebActivity.newIntent(context,stories.getId()))*/
+        card_stories.setOnClickListener(v ->
                 ARouter.getInstance().build("/activity/ZhihuWebActivity")
-                        .withString(ZhihuWebActivity.ID, topList.get(position).getId())
-                        .navigation();
-
-            });
-        }
+                        .withString(ZhihuWebActivity.ID, stories.getId())
+                        .navigation());
     }
 
-    /**
-     * footer view
-     */
-    class FooterViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_load_prompt)
-        TextView tv_load_prompt;
-        @BindView(R.id.progress)
-        ProgressBar progress;
-
-        public FooterViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtil.instance(context).dip2px(40));
-            itemView.setLayoutParams(params);
-        }
-
-        private void bindItem() {
-            switch (status) {
-                case LOAD_MORE:
-                    progress.setVisibility(View.VISIBLE);
-                    tv_load_prompt.setText("正在加载...");
-                    itemView.setVisibility(View.VISIBLE);
-                    break;
-                case LOAD_PULL_TO:
-                    progress.setVisibility(View.GONE);
-                    tv_load_prompt.setText("上拉加载更多");
-                    itemView.setVisibility(View.VISIBLE);
-                    break;
-                case LOAD_NONE:
-                    progress.setVisibility(View.GONE);
-                    tv_load_prompt.setText("已无更多加载");
-                    break;
-                case LOAD_END:
-                    itemView.setVisibility(View.GONE);
-                default:
-                    break;
-            }
-        }
-    }
-
-    //改变recylerview的状态
-    public void updateLoadStatus(int status) {
-        this.status = status;
-        notifyDataSetChanged();
-    }
 }
+
+
+
+
+

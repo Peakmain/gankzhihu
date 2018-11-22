@@ -35,4 +35,8 @@
     <!--底部的颜色-->
     <color name="bottomColor">#a23456</color>
     <color name="textColorPrimary">#616161</color>
+
+    <color name="banner_bottom_bar_bg_day">#65000000</color>
+    <color name="dot_select_color">#ffffffff</color>
+    <color name="dot_unselect_color">#50ffffff</color>
 </resources>

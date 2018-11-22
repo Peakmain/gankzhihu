@@ -8,6 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.blankj.utilcode.util.NetworkUtils;
+import com.peakmain.baselibrary.recylerview.refreshload.DefaultLoadCreator;
+import com.peakmain.baselibrary.recylerview.refreshload.DefaultRefreshCreator;
+import com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView;
+import com.peakmain.baselibrary.recylerview.widget.RefreshRecyclerView;
 import com.peakmain.gankzhihu.adapter.ZhihuListAdapter;
 import com.peakmain.gankzhihu.base.BasePresenter;
 import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
@@ -16,6 +20,9 @@ import com.peakmain.gankzhihu.net.RetrofitManager;
 import com.peakmain.gankzhihu.net.services.ZhihuApi;
 import com.peakmain.gankzhihu.ui.contract.ZhiHuContract;
 import com.peakmain.gankzhihu.utils.RxSchedulers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -29,14 +36,8 @@ import javax.inject.Inject;
 public class ZhihuPresenter extends BasePresenter<ZhiHuContract.View> implements ZhiHuContract.Presenter {
 
     private Context mContext;
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private boolean isLoadMore = false; // 是否加载过更多
 
-    private ZhihuListAdapter adapter;
-    private NewsTimeLine mNewsTimeLine;
-    private int lastVisibleItem;//最后一个可见
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+
     @Inject
     public ZhihuPresenter(@ContextLife Context context) {
         this.mContext = context;
@@ -45,99 +46,38 @@ public class ZhihuPresenter extends BasePresenter<ZhiHuContract.View> implements
     @Override
     public void getBeforeNews(String time) {
         if (mView != null) {
-            mRecyclerView = mView.getRecyclerView();
-            mLayoutManager = mView.getLayoutManager();
+            mView.showLoading();
             RetrofitManager.createZhiHuIo(ZhihuApi.class).getBeforetNews(time)
                     .compose(mView.bindToLife())
                     .compose(RxSchedulers.<NewsTimeLine>applySchedulers())
                     .subscribe(newsTimeLine -> {
-                        disPlayZhihuList(newsTimeLine, mContext, mRecyclerView);
+                       mView.disPlayZhihuList(newsTimeLine, mContext);
                     }, this::loadError);
-
         }
     }
-
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
-        if(!NetworkUtils.isConnected()){
+        if (!NetworkUtils.isConnected()) {
             mView.showNoNet();
         }
         mView.showFaild(throwable.getMessage());
-       // mView.hideLoading();
+        // mView.hideLoading();
     }
 
-    String time;
-
-    private void disPlayZhihuList(NewsTimeLine newsTimeLine, Context context, RecyclerView recyclerView) {
-        if (isLoadMore) {
-            if (time == null) {
-                adapter.updateLoadStatus(adapter.LOAD_NONE);
-                mView.setDataRefresh(false);
-                return;
-            } else {
-                mNewsTimeLine.getStories().addAll(newsTimeLine.getStories());
-            }
-            adapter.notifyDataSetChanged();
-        } else {
-            this.mNewsTimeLine = newsTimeLine;
-            adapter = new ZhihuListAdapter(context, mNewsTimeLine);
-            recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        }
-        mView.setDataRefresh(false);
-        mView.hideLoading();
-        time = mNewsTimeLine.getDate();
-    }
 
     @Override
     public void getLatestNews() {
         if (mView != null) {
             mView.showLoading();
-            mRecyclerView = mView.getRecyclerView();
-            mLayoutManager = mView.getLayoutManager();
+
             RetrofitManager.createZhiHuIo(ZhihuApi.class)
                     .getLatestNews()
                     .compose(RxSchedulers.applySchedulers())
                     .subscribe(newsTimeLine -> {
-                        disPlayZhihuList(newsTimeLine, mContext, mRecyclerView);
+                        mView.disPlayZhihuList(newsTimeLine, mContext);
                     }, this::loadError);
         }
     }
-    /**
-     * recyclerView滚动监听事件
-     */
-    public void scrollRecyclerView(){
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    lastVisibleItem = mLayoutManager
-                            .findLastVisibleItemPosition();
-                    if(mLayoutManager.getItemCount()==1){
-                        adapter.updateLoadStatus(adapter.LOAD_NONE);
-                        return;
-                    }
-                }
-                if(lastVisibleItem+1==mLayoutManager.getItemCount()){
-                    adapter.updateLoadStatus(adapter.LOAD_PULL_TO);
-                    isLoadMore = true;
-                    adapter.updateLoadStatus(adapter.LOAD_MORE);
-                    mHandler.postDelayed(() -> getBeforeNews(time), 1000);
-                }
-            }
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
-    @Override
-    public void detachView() {
-        super.detachView();
-        mHandler.removeCallbacksAndMessages(null);
-    }
 
 }

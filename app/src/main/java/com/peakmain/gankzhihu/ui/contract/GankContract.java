@@ -3,7 +3,11 @@ package com.peakmain.gankzhihu.ui.contract;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView;
 import com.peakmain.gankzhihu.base.BaseContract;
+import com.peakmain.gankzhihu.bean.gank.Gank;
+
+import java.util.List;
 
 /**
  * @author ：Peakmain
@@ -15,9 +19,7 @@ import com.peakmain.gankzhihu.base.BaseContract;
 public class GankContract {
 
     public interface View extends BaseContract.BaseView{
-        void setDataRefresh(Boolean refresh);
-        GridLayoutManager getLayoutManager();
-        RecyclerView getRecyclerView();
+         void displayMeizhi( List<Gank> meiZhiList);
     }
     public interface Presenter extends BaseContract.BasePresenter<View>{
         void getGankData(int pageNum);

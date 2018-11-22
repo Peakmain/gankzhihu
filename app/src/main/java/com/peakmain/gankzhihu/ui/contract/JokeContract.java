@@ -3,7 +3,9 @@ package com.peakmain.gankzhihu.ui.contract;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView;
 import com.peakmain.gankzhihu.base.BaseContract;
+import com.peakmain.gankzhihu.bean.jandan.JokeBean;
 
 /**
  * @author ：Peakmain
@@ -14,9 +16,7 @@ import com.peakmain.gankzhihu.base.BaseContract;
  */
 public class JokeContract {
     public interface View extends BaseContract.BaseView{
-        void setDataRefresh(Boolean refresh);
-        LinearLayoutManager getLayoutManager();
-        RecyclerView getRecyclerView();
+        void displayJokeList(JokeBean jokeBean);
     }
     public interface Presenter extends BaseContract.BasePresenter<View>{
         public void getDetailData(int page);

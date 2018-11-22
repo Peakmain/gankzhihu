@@ -108,7 +108,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_TOP) {
-            View rootView = View.inflate(parent.getContext(), R.layout.item_zhihu_top_stories, null);
+            View rootView = View.inflate(parent.getContext(), R.layout.item_daily_top_stories, null);
             return new TopStoriesViewHolder(rootView);
         } else if (viewType == TYPE_HEADLINE) {
             View rootView = View.inflate(parent.getContext(), R.layout.item_daily_headline, null);

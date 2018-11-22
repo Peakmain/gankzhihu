@@ -8,6 +8,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.peakmain.baselibrary.recylerview.refreshload.DefaultLoadCreator;
+import com.peakmain.baselibrary.recylerview.refreshload.DefaultRefreshCreator;
+import com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView;
+import com.peakmain.baselibrary.recylerview.widget.RefreshRecyclerView;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.adapter.GankListAdapter;
 import com.peakmain.gankzhihu.base.BasePresenter;
@@ -37,13 +41,13 @@ import io.reactivex.Observable;
  */
 public class GankPresenter extends BasePresenter<GankContract.View> implements GankContract.Presenter {
     private Context mContext;
-    private RecyclerView mRecyclerView;
+    private LoadRefreshRecyclerView mRecyclerView;
     private GridLayoutManager mLayoutManager;
-    private List<Gank> list;
+
     private int page = 2;
-    private GankListAdapter adapter;
+
     private int lastVisibleItem;
-    private boolean isLoadMore = false; // 是否加载过更多
+
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Inject
@@ -55,75 +59,24 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
     public void getGankData(int pageNum) {
         if (mView != null) {
             mView.showLoading();
-            mRecyclerView = mView.getRecyclerView();
-            mLayoutManager = mView.getLayoutManager();
-            if (isLoadMore) {
-                page = page + 1;
-            }
+
             GankApi gankApi = RetrofitManager.createGankIo(GankApi.class);
             Observable.zip(gankApi.getMeizhiData(pageNum)
                     , gankApi.getVideoData(pageNum), this::creatDesc)
                     .compose(mView.bindToLife())
                     .compose(RxSchedulers.applySchedulers())
                     .subscribe(meizhi1 -> {
-                        displayMeizhi( meizhi1.getResults());
+                        mView.displayMeizhi( meizhi1.getResults());
                     }, this::loadError);
         }
     }
 
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
-        mView.setDataRefresh(false);
         mView.hideLoading();
         Toast.makeText(mContext, R.string.load_error, Toast.LENGTH_SHORT).show();
     }
 
-    //展示妹子数据
-    private void displayMeizhi( List<Gank> meiZhiList) {
-        if (isLoadMore) {
-            if (meiZhiList == null) {
-                mView.setDataRefresh(false);
-                return;
-            } else {
-                list.addAll(meiZhiList);
-            }
-            adapter.notifyDataSetChanged();
-        } else {
-            list = meiZhiList;
-            adapter = new GankListAdapter(mContext, list);
-            mRecyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        }
-        mView.setDataRefresh(false);
-        mView.hideLoading();
-    }
-
-    //滚动
-    public void scrollRecycleView() {
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-                    if (lastVisibleItem == 1) {
-                        return;
-                    }
-                    if (lastVisibleItem + 1 == mLayoutManager.getItemCount()) {
-                        mView.setDataRefresh(true);
-                        isLoadMore = true;
-                        mHandler.postDelayed(() -> getGankData(page), 1000);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
 
     private Meizhi creatDesc(Meizhi meizhi, Video video) {
         for (Gank gankmeizhi : meizhi.getResults()) {
@@ -147,9 +100,6 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
         return videoDesc;
     }
 
-    @Override
-    public void detachView() {
-        super.detachView();
-        mHandler.removeCallbacksAndMessages(null);
-    }
+
+
 }

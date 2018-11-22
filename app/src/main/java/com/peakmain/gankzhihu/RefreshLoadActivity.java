@@ -110,6 +110,8 @@ public class RefreshLoadActivity extends AppCompatActivity implements RefreshRec
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                mDatas=new ArrayList<>();
+                initData();
                 mRecyclerView.onStopRefresh();
             }
         }, 2000);

@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -38,7 +39,7 @@ public class BannerViewPager extends ViewPager {
     // 3.改变ViewPager切换的速率 - 自定义的页面切换的Scroller
     private BannerScroller mScroller;
     // 2.实现自动轮播 - 发送消息Handler
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private Handler mHandler;
     // 10.内存优化 --> 当前Activity
     private Activity mActivity;
     // 10.内存优化 --> 复用的View
@@ -88,15 +89,15 @@ public class BannerViewPager extends ViewPager {
     }
 
     private void initHandler() {
-        mHandler.post(new Runnable() {
+        mHandler = new Handler() {
             @Override
-            public void run() {
+            public void handleMessage(Message msg) {
                 // 每隔*s后切换到下一页
                 setCurrentItem(getCurrentItem() + 1);
                 // 不断循环执行
                 startRoll();
             }
-        });
+        };
     }
 
     /**

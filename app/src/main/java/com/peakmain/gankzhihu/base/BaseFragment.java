@@ -36,8 +36,6 @@ import butterknife.Unbinder;
  */
 public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends RxFragment implements BaseContract.BaseView {
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout mRefreshLayout;
     @Nullable
     @Inject
     protected T mPresenter;
@@ -84,38 +82,9 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         inflaterView(inflater, container);
         unbinder = ButterKnife.bind(this, mRootView);
         initView(mRootView);
-        if (mRefreshLayout != null) {
-            mRefreshLayout.setColorSchemeResources(R.color.refresh_color_1,
-                    R.color.refresh_color_2, R.color.refresh_color_3);
-            mRefreshLayout.setProgressViewOffset(true, 0, (int) TypedValue
-                    .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
-            mRefreshLayout.setOnRefreshListener(() -> requestDataRefresh());
-        }
         return mRootView;
     }
 
-    //下拉刷新数据
-    public void requestDataRefresh() {
-
-    }
-
-    //设置下拉刷新状态
-    public void setRefresh(Boolean refresh) {
-        if (mRefreshLayout == null) {
-            return;
-        }
-        if (!refresh) {
-            mRefreshLayout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mRefreshLayout != null)
-                        mRefreshLayout.setRefreshing(false);
-                }
-            }, 1000);
-        } else {
-            mRefreshLayout.setRefreshing(true);
-        }
-    }
 
     @Override
     public void onDestroy() {

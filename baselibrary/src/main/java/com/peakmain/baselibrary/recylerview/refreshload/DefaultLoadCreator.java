@@ -12,13 +12,14 @@ import com.peakmain.baselibrary.R;
 import com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView;
 import com.peakmain.baselibrary.recylerview.widget.LoadViewCreator;
 
+
 /**
- * @author ：Peakmain
- * version ：1.0
- * createTime ：2018/11/21 0021 下午 3:24
- * mail : 2726449200@qq.com
- * describe ：默认加载更多样式
+ * Created by Darren on 2017/1/3.
+ * Email: 240336124@qq.com
+ * Description: 默认样式的加载底部辅助类
+ * 如淘宝、京东、不同的样式可以自己去实现
  */
+
 public class DefaultLoadCreator extends LoadViewCreator {
     // 加载数据的ImageView
     private TextView mLoadTv;
@@ -33,21 +34,20 @@ public class DefaultLoadCreator extends LoadViewCreator {
     }
 
     @Override
-    public void onPull(int currentDragHeight, int loadViewHeight, int currentLoadStatus) {
-        float rotate = ((float) currentDragHeight) / loadViewHeight;
-        // 不断下拉的过程中旋转图片
-        mRefreshIv.setRotation(rotate * 360);
-        if (currentLoadStatus == LoadRefreshRecyclerView.LOAD_STATUS_PULL_DOWN_REFRESH) {
+    public void onPull(int currentDragHeight, int refreshViewHeight, int currentRefreshStatus) {
+        if (currentRefreshStatus == LoadRefreshRecyclerView.LOAD_STATUS_PULL_DOWN_REFRESH) {
             mLoadTv.setText("上拉加载更多");
         }
-        if (currentLoadStatus == LoadRefreshRecyclerView.LOAD_STATUS_LOOSEN_LOADING) {
+        if (currentRefreshStatus == LoadRefreshRecyclerView.LOAD_STATUS_LOOSEN_LOADING) {
             mLoadTv.setText("松开加载更多");
         }
     }
 
     @Override
     public void onLoading() {
-        mLoadTv.setText("正在加载中");
+        mLoadTv.setVisibility(View.INVISIBLE);
+        mRefreshIv.setVisibility(View.VISIBLE);
+
         // 加载的时候不断旋转
         RotateAnimation animation = new RotateAnimation(0, 720,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);

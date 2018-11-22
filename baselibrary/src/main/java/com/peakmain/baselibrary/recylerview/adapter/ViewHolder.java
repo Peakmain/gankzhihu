@@ -67,17 +67,27 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     /**
      * 设置条目点击事件
      */
-    public void setOnIntemClickListener(View.OnClickListener listener) {
+    public void setOnItemClickListener(View.OnClickListener listener) {
         itemView.setOnClickListener(listener);
     }
-
+    /**
+     * 设置条目某个view的点击事件
+     */
+    public void setOnItemClickListener(int viewId,View.OnClickListener listener){
+        getView(viewId).setOnClickListener(listener);
+    }
     /**
      * 设置条目长按事件
      */
-    public void setOnIntemLongClickListener(View.OnLongClickListener listener) {
+    public void setOnItemLongClickListener(View.OnLongClickListener listener) {
         itemView.setOnLongClickListener(listener);
     }
-
+    /**
+     * 设置条目某个view的长按事件
+     */
+    public void setOnItemLongClickListener(int viewId,View.OnClickListener listener){
+        getView(viewId).setOnClickListener(listener);
+    }
     /**
      * 设置图片通过路径,这里稍微处理得复杂一些，因为考虑加载图片的第三方可能不太一样
      * 也可以直接写死

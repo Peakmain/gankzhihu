@@ -48,7 +48,7 @@ public class BannerView extends RelativeLayout {
     // 8.自定义属性 - 点的显示位置  默认右边
     private int mDotGravity = 1;
     // 8.自定义属性 - 点的大小  默认8dp
-    private int mDotSize = 8;
+    private int mDotSize = 6;
     // 8.自定义属性 - 点的间距  默认8dp
     private int mDotDistance = 8;
     // 8.自定义属性 - 底部容器

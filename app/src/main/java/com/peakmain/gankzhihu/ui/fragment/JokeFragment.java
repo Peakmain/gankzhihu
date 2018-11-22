@@ -4,8 +4,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.peakmain.baselibrary.recylerview.refreshload.DefaultLoadCreator;
+import com.peakmain.baselibrary.recylerview.refreshload.DefaultRefreshCreator;
+import com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView;
+import com.peakmain.baselibrary.recylerview.widget.RefreshRecyclerView;
 import com.peakmain.gankzhihu.R;
+import com.peakmain.gankzhihu.adapter.JokesAdapter;
 import com.peakmain.gankzhihu.base.BaseFragment;
+import com.peakmain.gankzhihu.bean.jandan.JokeBean;
 import com.peakmain.gankzhihu.ui.contract.JokeContract;
 import com.peakmain.gankzhihu.ui.presenter.JokePresenter;
 import com.peakmain.gankzhihu.view.BackTopView;
@@ -19,14 +25,16 @@ import butterknife.BindView;
  * mail : 2726449200@qq.com
  * describe ：
  */
-public class JokeFragment extends BaseFragment<JokePresenter> implements JokeContract.View {
+public class JokeFragment extends BaseFragment<JokePresenter> implements JokeContract.View, RefreshRecyclerView.OnRefreshListener, LoadRefreshRecyclerView.OnLoadMoreListener {
     @BindView(R.id.mRecyclerView)
-    RecyclerView mRecyclerView;
+    LoadRefreshRecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private int page = 1;
     @BindView(R.id.btn_to_top)
     BackTopView mBackTopView;
-
+    private boolean isLoadMore = false; // 是否加载过更多
+    private JokesAdapter mAdapter;
+    private JokeBean mJokeBean;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_joke;
@@ -41,31 +49,53 @@ public class JokeFragment extends BaseFragment<JokePresenter> implements JokeCon
     protected void initView(View view) {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        setDataRefresh(true);
         mPresenter.getDetailData(page);
-        mPresenter.scrollRecyclerView();
         mBackTopView.setRecyclerView(mRecyclerView);
+        mRecyclerView.addRefreshViewCreator(new DefaultRefreshCreator());
+        mRecyclerView.addLoadViewCreator(new DefaultLoadCreator());
+        mRecyclerView.setOnRefreshListener(this);
+        mRecyclerView.setOnLoadMoreListener(this);
     }
 
     @Override
-    public void setDataRefresh(Boolean refresh) {
-        setRefresh(refresh);
+    public void displayJokeList(JokeBean jokeBean) {
+        for (JokeBean.CommentsBean bean : jokeBean.getComments()) {
+            if (bean.getPics() != null) {
+                if (bean.getPics().size() > 1) {
+                    bean.itemType = JokeBean.CommentsBean.TYPE_MULTIPLE;
+                } else {
+                    bean.itemType = JokeBean.CommentsBean.TYPE_SINGLE;
+                }
+            }
+        }
+        if (isLoadMore) {//加载更多
+            if (jokeBean.getComments() == null) {
+                return;
+            } else {
+                mJokeBean.getComments().addAll(jokeBean.getComments());
+            }
+            mAdapter.notifyDataSetChanged();
+        } else {
+            this.mJokeBean = jokeBean;
+            mAdapter = new JokesAdapter(getContext(), mJokeBean.getComments());
+            mRecyclerView.setAdapter(mAdapter);
+        }
+        hideLoading();
     }
 
     @Override
-    public void requestDataRefresh() {
-        super.requestDataRefresh();
-        setDataRefresh(true);
+    public void onRefresh() {
+        isLoadMore=false;
+        page=1;
         mPresenter.getDetailData(page);
+        mRecyclerView.onStopRefresh();
     }
 
     @Override
-    public LinearLayoutManager getLayoutManager() {
-        return mLayoutManager;
-    }
-
-    @Override
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
+    public void onLoad() {
+        isLoadMore=true;
+        page++;
+        mPresenter.getDetailData(page);
+        mRecyclerView.onStopRefresh();
     }
 }

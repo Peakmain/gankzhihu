@@ -37,6 +37,7 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
     public static int LOAD_STATUS_LOOSEN_LOADING = 0x0033;
     // 正在加载更多状态
     public int LOAD_STATUS_LOADING = 0x0044;
+
     public LoadRefreshRecyclerView(Context context) {
         super(context);
     }
@@ -49,12 +50,13 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
         super(context, attrs, defStyle);
     }
 
-
-    // 不直接添加View，利用辅助类
+    // 先处理上拉加载更多，同时考虑加载列表的不同风格样式，确保这个项目还是下一个项目都能用
+    // 所以我们不能直接添加View，需要利用辅助类
     public void addLoadViewCreator(LoadViewCreator loadCreator) {
         this.mLoadCreator = loadCreator;
         addRefreshView();
     }
+
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
@@ -80,14 +82,14 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
         }
         return super.dispatchTouchEvent(ev);
     }
+
     /**
      * 重置当前加载更多状态
      */
     private void restoreLoadView() {
         int currentBottomMargin = ((MarginLayoutParams) mLoadView.getLayoutParams()).bottomMargin;
         int finalBottomMargin = 0;
-        //松开上拉加载
-        if(mCurrentLoadStatus==LOAD_STATUS_LOOSEN_LOADING){
+        if (mCurrentLoadStatus == LOAD_STATUS_LOOSEN_LOADING) {
             mCurrentLoadStatus = LOAD_STATUS_LOADING;
             if (mLoadCreator != null) {
                 mLoadCreator.onLoading();
@@ -96,6 +98,7 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
                 mListener.onLoad();
             }
         }
+
         int distance = currentBottomMargin - finalBottomMargin;
 
         // 回弹到指定位置
@@ -110,6 +113,7 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
         animator.start();
         mCurrentDrag = false;
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -132,7 +136,7 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
 
                 // 获取手指触摸拖拽的距离
                 int distanceY = (int) ((e.getRawY() - mFingerDownY) * mDragIndex);
-                // 如果是已经到达底部，并且不断的向下拉，那么不断的改变refreshView的marginTop的值
+                // 如果是已经到达头部，并且不断的向下拉，那么不断的改变refreshView的marginTop的值
                 if (distanceY < 0) {
                     setLoadViewMarginBottom(-distanceY);
                     updateLoadStatus(-distanceY);
@@ -144,6 +148,7 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
 
         return super.onTouchEvent(e);
     }
+
     /**
      * 更新加载的状态
      */
@@ -160,26 +165,6 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
             mLoadCreator.onPull(distanceY, mLoadViewHeight, mCurrentLoadStatus);
         }
     }
-    /**
-     * @return Whether it is possible for the child view of this layout to
-     * scroll up. Override this if the child view is a custom view.
-     * 判断是不是滚动到了最底部 ，这个是从SwipeRefreshLayout里面copy过来的源代码
-     */
-    public boolean canScrollDown() {
-        return ViewCompat.canScrollVertically(this, 1);
-    }
-    /**
-     * 设置加载View的marginBottom
-     */
-    public void setLoadViewMarginBottom(int marginBottom) {
-        MarginLayoutParams params = (MarginLayoutParams) mLoadView.getLayoutParams();
-        if (marginBottom < 0) {
-            marginBottom = 0;
-        }
-        params.bottomMargin = marginBottom;
-        mLoadView.setLayoutParams(params);
-    }
-
 
     /**
      * 添加底部加载更多View
@@ -195,6 +180,29 @@ public class LoadRefreshRecyclerView extends RefreshRecyclerView {
             }
         }
     }
+
+    /**
+     * 设置加载View的marginBottom
+     */
+    public void setLoadViewMarginBottom(int marginBottom) {
+        MarginLayoutParams params = (MarginLayoutParams) mLoadView.getLayoutParams();
+        if (marginBottom < 0) {
+            marginBottom = 0;
+        }
+        params.bottomMargin = marginBottom;
+        mLoadView.setLayoutParams(params);
+    }
+
+
+    /**
+     * @return Whether it is possible for the child view of this layout to
+     * scroll up. Override this if the child view is a custom view.
+     * 判断是不是滚动到了最顶部，这个是从SwipeRefreshLayout里面copy过来的源代码
+     */
+    public boolean canScrollDown() {
+        return ViewCompat.canScrollVertically(this, 1);
+    }
+
     /**
      * 停止加载更多
      */

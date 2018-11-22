@@ -8,15 +8,17 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/content_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/gery"/>
+
 
     </android.support.v4.widget.SwipeRefreshLayout>
+    <com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView
+        android:id="@+id/content_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gery"/>
     <com.peakmain.gankzhihu.view.BackTopView
         android:id="@+id/btn_to_top"
         android:layout_width="36dp"
