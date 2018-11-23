@@ -22,6 +22,9 @@
 
 - 新增段子内容
 
+- 自己封装recylerview，实现下拉刷新和上拉加载
+
+- 自己基于viewpager实现一套轮播图
 
 ![段子.png](https://upload-images.jianshu.io/upload_images/9387746-225971926055550a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -44,6 +47,9 @@
 
 ![效果图6.gif](https://upload-images.jianshu.io/upload_images/9387746-93ba05a386f97e50.gif?imageMogr2/auto-orient/strip)
 
+![下拉刷新.gif](https://upload-images.jianshu.io/upload_images/9387746-1b7d08911c9fe2b6.gif?imageMogr2/auto-orient/strip)
+
+![上拉加载.gif](https://upload-images.jianshu.io/upload_images/9387746-3fe3d0b92358072b.gif?imageMogr2/auto-orient/strip)
 
 ### 最后
 * 感谢开源项目 [ZhihuDailyPurify](https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90)

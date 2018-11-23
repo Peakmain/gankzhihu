@@ -70,7 +70,7 @@ public class GankFragment extends BaseFragment<GankPresenter> implements GankCon
             }
             adapter.notifyDataSetChanged();
         } else {
-            list = meiZhiList;
+            this.list = meiZhiList;
             adapter = new GankListAdapter(getContext(), list);
             mRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
@@ -80,24 +80,17 @@ public class GankFragment extends BaseFragment<GankPresenter> implements GankCon
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                page=1;
-                isLoadMore=false;
-                mPresenter.getGankData(page);
-                mRecyclerView.onStopRefresh();
-            }
-        }, 1000);
+        page = 1;
+        isLoadMore = false;
+        mPresenter.getGankData(page);
+        mRecyclerView.onStopRefresh();
     }
 
     @Override
     public void onLoad() {
         page++;
-        mPresenter.getGankData(page);
         isLoadMore = true;
+        mPresenter.getGankData(page);
         mRecyclerView.onStopLoad();
-        adapter.notifyDataSetChanged();
-
     }
 }

@@ -41,14 +41,6 @@ import io.reactivex.Observable;
  */
 public class GankPresenter extends BasePresenter<GankContract.View> implements GankContract.Presenter {
     private Context mContext;
-    private LoadRefreshRecyclerView mRecyclerView;
-    private GridLayoutManager mLayoutManager;
-
-    private int page = 2;
-
-    private int lastVisibleItem;
-
-    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Inject
     public GankPresenter(@ContextLife Context context) {
@@ -59,7 +51,6 @@ public class GankPresenter extends BasePresenter<GankContract.View> implements G
     public void getGankData(int pageNum) {
         if (mView != null) {
             mView.showLoading();
-
             GankApi gankApi = RetrofitManager.createGankIo(GankApi.class);
             Observable.zip(gankApi.getMeizhiData(pageNum)
                     , gankApi.getVideoData(pageNum), this::creatDesc)

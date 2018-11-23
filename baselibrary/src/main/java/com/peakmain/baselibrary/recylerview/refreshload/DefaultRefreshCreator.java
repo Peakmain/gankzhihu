@@ -52,5 +52,6 @@ public class DefaultRefreshCreator extends RefreshViewCreator {
         // 停止加载的时候清除动画
         mRefreshIv.setRotation(0);
         ((AnimationDrawable) mRefreshIv.getBackground()).stop();
+        mRefreshIv.clearAnimation();
     }
 }

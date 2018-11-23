@@ -7,8 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * @author ：Peakmain
@@ -33,13 +35,13 @@ public class RefreshRecyclerView extends WrapRecyclerView {
     // 当前的状态
     private int mCurrentRefreshStatus;
     // 默认状态
-    private static int REFRESH_STATUS_NORMAL = 0x0011;
+    private int REFRESH_STATUS_NORMAL = 0x0011;
     // 下拉刷新状态
-    private static int REFRESH_STATUS_PULL_DOWN_REFRESH = 0x0022;
+    private int REFRESH_STATUS_PULL_DOWN_REFRESH = 0x0022;
     // 松开刷新状态
-    private static int REFRESH_STATUS_LOOSEN_REFRESHING = 0x0033;
+    private int REFRESH_STATUS_LOOSEN_REFRESHING = 0x0033;
     // 正在刷新状态
-    private static int REFRESH_STATUS_REFRESHING = 0x0044;
+    private int REFRESH_STATUS_REFRESHING = 0x0044;
 
     public RefreshRecyclerView(Context context) {
         super(context);
@@ -78,9 +80,8 @@ public class RefreshRecyclerView extends WrapRecyclerView {
             case MotionEvent.ACTION_UP:
                 if (mCurrentDrag) {
                     restoreRefreshView();
+                    return true;
                 }
-                break;
-            default:
                 break;
         }
         return super.dispatchTouchEvent(ev);
@@ -146,7 +147,6 @@ public class RefreshRecyclerView extends WrapRecyclerView {
                     return false;
                 }
                 break;
-
         }
 
         return super.onTouchEvent(e);
@@ -173,7 +173,7 @@ public class RefreshRecyclerView extends WrapRecyclerView {
      * 添加头部的刷新View
      */
     private void addRefreshView() {
-        Adapter adapter = getAdapter();
+        RecyclerView.Adapter adapter = getAdapter();
         if (adapter != null && mRefreshCreator != null) {
             // 添加头部的刷新View
             View refreshView = mRefreshCreator.getRefreshView(getContext(), this);
