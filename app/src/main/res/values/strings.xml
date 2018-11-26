@@ -42,4 +42,26 @@
     <string name="desc_api_jiandan">段子,来源于煎蛋</string>
     <string name="desc_api_video">视频,来源于百思不得姐</string>
     <string name="project_github">https://github.com/Peakmain/gankzhihu</string>
+    <string name="point_play">点播</string>
+
+
+    <!--点播轮播图-->
+    <string name="a_name">三生三世十里桃花</string>
+    <string name="b_name">那片星空那片海</string>
+    <string name="c_name">花间提壶方大厨</string>
+    <string name="d_name">双世宠妃</string>
+
+    <string name="site_letv">乐视视频</string>
+    <string name="site_sohu">搜狐视频</string>
+
+    <string name="channel_series">电视剧</string>
+    <string name="channel_movie">电影</string>
+    <string name="channel_comic">动漫</string>
+    <string name="channel_documentary">纪录片</string>
+    <string name="channel_music">音乐</string>
+    <string name="channel_variety">综艺</string>
+    <string name="channel_live">直播</string>
+    <string name="channel_favorite">收藏</string>
+    <string name="channel_history">历史</string>
+
 </resources>

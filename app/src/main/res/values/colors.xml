@@ -39,4 +39,9 @@
     <color name="banner_bottom_bar_bg_day">#65000000</color>
     <color name="dot_select_color">#ffffffff</color>
     <color name="dot_unselect_color">#50ffffff</color>
+
+    <color name="transparentWhite">#11FFFFFF</color>
+    <color name="transparentBlack">#B0111111</color>
+
+    <color name="grey_medium">#999999</color>
 </resources>

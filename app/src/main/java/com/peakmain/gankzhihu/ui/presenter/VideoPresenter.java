@@ -44,7 +44,7 @@ public class VideoPresenter extends BasePresenter<VideoContract.View> implements
             mView.showLoading();
             RetrofitManager.createVideoIo(VideoApi.class)
                     .getVideoData(page, "baidu", "863425026599592", "baisibudejie",
-                            "4.2.2", "android", "", "98%3A6c%3Af5%3A4b%3A72%3A6d", "6.2.8")
+                            "5.1.1", "android", "", "862720032545006&mac=20%3A5d%3A47%3A82%3Ae2%3A7e", "7.0.8")
                     .compose(RxSchedulers.applySchedulers())
                     .compose(mView.bindToLife())
                     .subscribe(videoPageData -> {

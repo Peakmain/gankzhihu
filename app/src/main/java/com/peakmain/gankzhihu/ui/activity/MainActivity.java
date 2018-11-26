@@ -185,6 +185,10 @@ public class MainActivity extends BaseActivity {
                 startActivity(Intent.createChooser(shareIntent, "分享"));
                 mDrawerLayout.closeDrawers();
                 break;
+            case R.id.point_play://点播
+                ARouter.getInstance().build("/activity/PointPlayActivity")
+                        .navigation();
+                break;
             case R.id.action_news:
                 showFragment(FRAGMENT_NEWS);
                 break;

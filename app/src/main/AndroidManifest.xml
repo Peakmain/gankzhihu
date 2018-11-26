@@ -33,6 +33,8 @@
         <activity android:name=".ui.activity.DailyFeedActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.RegisterActivity" />
+        <activity android:name=".ui.activity.PointPlayActivity" />
+        <activity android:name=".ui.activity.LiveActivity" />
     </application>
 
 </manifest>
