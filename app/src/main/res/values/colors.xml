@@ -44,4 +44,6 @@
     <color name="transparentBlack">#B0111111</color>
 
     <color name="grey_medium">#999999</color>
+
+    <color name="color_gray">#9a9a9a</color>
 </resources>

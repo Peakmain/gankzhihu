@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -35,6 +35,15 @@
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.PointPlayActivity" />
         <activity android:name=".ui.activity.LiveActivity" />
+        <activity android:name=".ui.activity.MusicPlayerActivity"
+            android:launchMode="singleTop"/>
+
+        <service android:name=".ui.service.MusicPlayerService"
+           >
+            <intent-filter>
+                <action android:name="com.peakmain.gankzhihu_openaudio" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -19,6 +19,12 @@
         android:icon="@drawable/ic_video_white_24dp"
         android:title="@string/title_video"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_music"
+        android:enabled="true"
+        android:icon="@drawable/ic_music_white_24dp"
+        android:title="@string/title_music"
+        app:showAsAction="ifRoom" />
 
 
 </menu>

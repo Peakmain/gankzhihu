@@ -73,4 +73,5 @@ dependencies {
     implementation 'cn.jzvd:jiaozivideoplayer:6.4.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
     implementation project(':baselibrary')
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

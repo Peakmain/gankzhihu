@@ -9,6 +9,7 @@ import com.peakmain.gankzhihu.di.scope.PerFragment;
 import com.peakmain.gankzhihu.ui.fragment.DailyFragment;
 import com.peakmain.gankzhihu.ui.fragment.GankFragment;
 import com.peakmain.gankzhihu.ui.fragment.JokeFragment;
+import com.peakmain.gankzhihu.ui.fragment.MusicFragment;
 import com.peakmain.gankzhihu.ui.fragment.VideoFragment;
 import com.peakmain.gankzhihu.ui.fragment.ZhihuFragment;
 
@@ -41,4 +42,6 @@ public interface FragmentComponent {
     void inject(JokeFragment jokeFragment);
 
     void inject(VideoFragment videoFragment);
+
+    void inject(MusicFragment musicFragment);
 }

@@ -2,6 +2,8 @@ package com.peakmain.gankzhihu;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -20,6 +22,8 @@ import com.peakmain.gankzhihu.di.module.ApplicationModule;
  */
 public class App extends Application {
     public static Context mContext;
+    public static Handler handler;
+    public static int mainThreadId;
     private ApplicationComponent mApplicationComponent;
 
     @Override
@@ -33,6 +37,9 @@ public class App extends Application {
         ToastUtils.setGravity(Gravity.TOP,0, (int) (80 * Utils.getApp().getResources().getDisplayMetrics().density + 0.5));
         ToastUtils.setBgColor(getResources().getColor(R.color.white));
         ToastUtils.setMsgColor(getResources().getColor(R.color.colorAccent));
+
+        handler=new Handler(Looper.getMainLooper());
+        mainThreadId = android.os.Process.myTid();//获取当前线程的id
     }
 
     private void intARouter() {

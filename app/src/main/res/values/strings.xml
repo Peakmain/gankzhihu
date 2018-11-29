@@ -34,6 +34,7 @@
     <string name="title_news">新闻</string>
     <string name="title_jokes">段子</string>
     <string name="title_video">视频</string>
+    <string name="title_music">音乐</string>
     <string name="download">下载</string>
     <string name="download_commentary">下载(原评论)</string>
     <string name="classification">分类，例如：搞笑</string>
@@ -63,5 +64,9 @@
     <string name="channel_live">直播</string>
     <string name="channel_favorite">收藏</string>
     <string name="channel_history">历史</string>
+
+    <string name="loading_text">加载中&#8230;</string>
+    <string name="data_error">数据获取失败(ㄒoㄒ)~~</string>
+    <string name="empty_view_hint">暂时木有内容呀~~</string>
 
 </resources>

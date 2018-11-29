@@ -22,6 +22,7 @@ import com.peakmain.gankzhihu.base.BaseActivity;
 import com.peakmain.gankzhihu.rx.RegisterBus;
 import com.peakmain.gankzhihu.rx.RxBus;
 import com.peakmain.gankzhihu.ui.fragment.JokeFragment;
+import com.peakmain.gankzhihu.ui.fragment.MusicFragment;
 import com.peakmain.gankzhihu.ui.fragment.NewsFragment;
 import com.peakmain.gankzhihu.ui.fragment.VideoFragment;
 
@@ -42,9 +43,11 @@ public class MainActivity extends BaseActivity {
     private static final int FRAGMENT_NEWS = 0;
     private static final int FRAGMENT_JOKE = 1;
     private static final int FRAGMENT_VIDEO = 2;
+    private static final int FRAGMENT_MUSIC = 3;
     private NewsFragment mNewsFragment;
     private JokeFragment mJokeFragment;
     private VideoFragment mVideoFragment;
+    private MusicFragment mMusicFragment;
     private int position;//当前选中的位置
     private TextView mUserName;
 
@@ -135,9 +138,19 @@ public class MainActivity extends BaseActivity {
                 if (mVideoFragment == null) {
                     mVideoFragment = new VideoFragment();
                     ft.add(R.id.container, mVideoFragment, VideoFragment.class.getName());
-                }else{
+                } else {
                     ft.show(mVideoFragment);
                 }
+                break;
+            case FRAGMENT_MUSIC:
+                mToolbar.setTitle(R.string.title_music);
+                if (mMusicFragment == null) {
+                    mMusicFragment = new MusicFragment();
+                    ft.add(R.id.container, mMusicFragment, MusicFragment.class.getName());
+                } else {
+                    ft.show(mMusicFragment);
+                }
+                break;
         }
         ft.commit();
     }
@@ -197,6 +210,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.action_video:
                 showFragment(FRAGMENT_VIDEO);
+                break;
+            case R.id.action_music:
+                 showFragment(FRAGMENT_MUSIC);
                 break;
         }
         return super.onOptionsItemSelected(item);

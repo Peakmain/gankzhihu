@@ -34,7 +34,7 @@
 
 ![gif效果图.gif](https://upload-images.jianshu.io/upload_images/9387746-d0361ef5753834df.gif?imageMogr2/auto-orient/strip)
 
-
+![音乐效果图.jpg](https://upload-images.jianshu.io/upload_images/9387746-4b988a9d5017fca9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ### 效果图
 
 ![效果图1.png](https://upload-images.jianshu.io/upload_images/9387746-b6e43e7a60df19eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
