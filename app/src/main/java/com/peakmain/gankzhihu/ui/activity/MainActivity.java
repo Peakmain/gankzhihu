@@ -171,7 +171,8 @@ public class MainActivity extends BaseActivity {
         if (mVideoFragment != null) {
             ft.hide(mVideoFragment);
         }
-
+        if (mMusicFragment != null)
+            ft.hide(mMusicFragment);
     }
 
 
@@ -212,7 +213,7 @@ public class MainActivity extends BaseActivity {
                 showFragment(FRAGMENT_VIDEO);
                 break;
             case R.id.action_music:
-                 showFragment(FRAGMENT_MUSIC);
+                showFragment(FRAGMENT_MUSIC);
                 break;
         }
         return super.onOptionsItemSelected(item);
