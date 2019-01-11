@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        getWindow().setBackgroundDrawable(null);
         showFragment(FRAGMENT_NEWS);
         RxBus.getInstance().register(this);
         //获取头部

@@ -5,18 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <com.youth.banner.Banner
+        android:id="@+id/vp_top_stories"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="200dp"
+        app:indicator_drawable_selected="@drawable/circle_selected"
+        app:indicator_drawable_unselected="@drawable/circle_default" />
 
-        <com.youth.banner.Banner
-            android:id="@+id/vp_top_stories"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:indicator_drawable_selected="@drawable/circle_selected"
-            app:indicator_drawable_unselected="@drawable/circle_default" />
-
-    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_tag"

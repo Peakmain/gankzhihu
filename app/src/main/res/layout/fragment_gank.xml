@@ -8,6 +8,5 @@
     <com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView
         android:id="@+id/content_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gery"/>
+        android:layout_height="match_parent" />
 </LinearLayout>
