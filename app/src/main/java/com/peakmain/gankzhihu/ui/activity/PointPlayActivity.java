@@ -3,55 +3,54 @@ package com.peakmain.gankzhihu.ui.activity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.peakmain.baselibrary.banner.BannerAdapter;
-import com.peakmain.baselibrary.banner.BannerView;
 import com.peakmain.baselibrary.navigationbar.DefaultNavigationBar;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.adapter.ChannelAdapter;
 import com.peakmain.gankzhihu.base.BaseActivity;
-import com.peakmain.gankzhihu.bean.pointplay.Channel;
+import com.peakmain.gankzhihu.utils.BannerUtils;
+import com.youth.banner.Banner;
+
+
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 
 /**
  * @author ：Peakmain
- * version ：1.0
- * createTime ：2018/11/26 0026 上午 11:02
- * mail : 2726449200@qq.com
- * describe ：点播
+ *         version ：1.0
+ *         createTime ：2018/11/26 0026 上午 11:02
+ *         mail : 2726449200@qq.com
+ *         describe ：点播
  */
 @Route(path = "/activity/PointPlayActivity")
 public class PointPlayActivity extends BaseActivity {
     @BindView(R.id.banner_view)
-    BannerView mBannerView;
+    Banner mBannerView;
     @BindView(R.id.gv_channel)
     GridView mGridView;
     //描述
-    private int[] mDes = new int[]{
-            R.string.a_name,
-            R.string.b_name,
-            R.string.c_name,
-            R.string.d_name,
+    private String[] mDes = new String[]{
+            getResources().getString(R.string.a_name),
+            getResources().getString(R.string.b_name),
+            getResources().getString(R.string.c_name),
+            getResources().getString(R.string.d_name),
     };
     //图片集合
-    private int[] mImg = new int[]{
-            R.drawable.a,
-            R.drawable.b,
-            R.drawable.c,
-            R.drawable.d,
+    private String[] mImg = new String[]{
+            getResources().getResourceName(R.drawable.a),
+            getResources().getResourceName(R.drawable.b),
+            getResources().getResourceName(R.drawable.c),
+            getResources().getResourceName(R.drawable.d),
     };
 
     @Override
@@ -83,7 +82,7 @@ public class PointPlayActivity extends BaseActivity {
                 default:
                     //跳转对应频道
                     ARouter.getInstance().build("/activity/detailListActivity")
-                            .withInt("ChannelPosition",position+1)
+                            .withInt("ChannelPosition", position + 1)
                             .navigation();
                     break;
             }
@@ -94,28 +93,8 @@ public class PointPlayActivity extends BaseActivity {
      * 初始化顶部的轮播图
      */
     private void initBanner() {
-        mBannerView.setAdapter(new BannerAdapter() {
-            @Override
-            public View getView(int position, View convertView) {
-                if (convertView == null) {
-                    convertView = new ImageView(PointPlayActivity.this);
-                }
-                ((ImageView) convertView).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                Glide.with(PointPlayActivity.this).load(mImg[position]).into((ImageView) convertView);
-                return convertView;
-            }
-
-            @Override
-            public int getCount() {
-                return mImg.length;
-            }
-
-            @Override
-            public String getBannerDesc(int position) {
-                return getResources().getString(mDes[position]);
-            }
-        });
+        BannerUtils.initBanner(mBannerView, Arrays.asList(mImg), Arrays.asList(mDes));
     }
 
     /**

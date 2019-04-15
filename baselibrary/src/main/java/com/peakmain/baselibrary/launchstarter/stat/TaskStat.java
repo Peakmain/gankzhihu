@@ -1,8 +1,8 @@
-package com.peakmain.gankzhihu.launchstarter.stat;
+package com.peakmain.baselibrary.launchstarter.stat;
 
 
 
-import com.peakmain.gankzhihu.launchstarter.DispatcherLog;
+import com.peakmain.baselibrary.launchstarter.DispatcherLog;
 
 import java.util.ArrayList;
 import java.util.List;

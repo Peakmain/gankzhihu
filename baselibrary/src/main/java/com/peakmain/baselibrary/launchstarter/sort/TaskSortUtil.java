@@ -1,11 +1,11 @@
-package com.peakmain.gankzhihu.launchstarter.sort;
+package com.peakmain.baselibrary.launchstarter.sort;
 
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArraySet;
 
 
-import com.peakmain.gankzhihu.launchstarter.DispatcherLog;
-import com.peakmain.gankzhihu.launchstarter.task.Task;
+import com.peakmain.baselibrary.launchstarter.DispatcherLog;
+import com.peakmain.baselibrary.launchstarter.task.Task;
 
 import java.util.ArrayList;
 import java.util.List;

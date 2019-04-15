@@ -2,7 +2,7 @@ package com.peakmain.gankzhihu.tasks;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.peakmain.gankzhihu.App;
-import com.peakmain.gankzhihu.launchstarter.task.Task;
+import com.peakmain.baselibrary.launchstarter.task.Task;
 
 /**
  * author ：Peakmain

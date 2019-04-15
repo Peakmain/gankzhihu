@@ -13,7 +13,7 @@ import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.bean.zhihu.Stories;
 import com.peakmain.gankzhihu.di.scope.ContextLife;
 import com.peakmain.gankzhihu.ui.activity.ZhihuWebActivity;
-import com.peakmain.gankzhihu.launchstarter.utils.LaunchTimer;
+import com.peakmain.baselibrary.launchstarter.utils.LaunchTimer;
 import com.peakmain.gankzhihu.utils.ScreenUtil;
 
 import java.util.List;

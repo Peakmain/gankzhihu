@@ -1,4 +1,4 @@
-package com.peakmain.gankzhihu.launchstarter;
+package com.peakmain.baselibrary.launchstarter;
 
 import android.content.Context;
 import android.os.Looper;
@@ -6,11 +6,11 @@ import android.support.annotation.UiThread;
 import android.util.Log;
 
 
-import com.peakmain.gankzhihu.launchstarter.sort.TaskSortUtil;
-import com.peakmain.gankzhihu.launchstarter.stat.TaskStat;
-import com.peakmain.gankzhihu.launchstarter.task.DispatchRunnable;
-import com.peakmain.gankzhihu.launchstarter.task.Task;
-import com.peakmain.gankzhihu.launchstarter.task.TaskCallBack;
+import com.peakmain.baselibrary.launchstarter.sort.TaskSortUtil;
+import com.peakmain.baselibrary.launchstarter.stat.TaskStat;
+import com.peakmain.baselibrary.launchstarter.task.DispatchRunnable;
+import com.peakmain.baselibrary.launchstarter.task.Task;
+import com.peakmain.baselibrary.launchstarter.task.TaskCallBack;
 
 import java.util.ArrayList;
 import java.util.HashMap;

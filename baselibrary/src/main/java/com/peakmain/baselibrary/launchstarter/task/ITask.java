@@ -1,4 +1,4 @@
-package com.peakmain.gankzhihu.launchstarter.task;
+package com.peakmain.baselibrary.launchstarter.task;
 
 import android.os.Process;
 import android.support.annotation.IntRange;

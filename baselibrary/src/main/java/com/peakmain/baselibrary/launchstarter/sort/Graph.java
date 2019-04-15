@@ -1,4 +1,4 @@
-package com.peakmain.gankzhihu.launchstarter.sort;
+package com.peakmain.baselibrary.launchstarter.sort;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

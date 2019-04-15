@@ -1,10 +1,10 @@
-package com.peakmain.gankzhihu.launchstarter.utils;
+package com.peakmain.baselibrary.launchstarter.utils;
 
 import android.os.Looper;
 import android.os.MessageQueue;
 
-import com.peakmain.gankzhihu.launchstarter.task.DispatchRunnable;
-import com.peakmain.gankzhihu.launchstarter.task.Task;
+import com.peakmain.baselibrary.launchstarter.task.DispatchRunnable;
+import com.peakmain.baselibrary.launchstarter.task.Task;
 
 import java.util.LinkedList;
 import java.util.Queue;

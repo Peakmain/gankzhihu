@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.peakmain.gankzhihu.App;
 import com.peakmain.gankzhihu.R;
-import com.peakmain.gankzhihu.launchstarter.task.Task;
+import com.peakmain.baselibrary.launchstarter.task.Task;
 
 /**
  * author ：Peakmain

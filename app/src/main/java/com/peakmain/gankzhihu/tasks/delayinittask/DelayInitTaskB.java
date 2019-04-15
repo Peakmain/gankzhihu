@@ -1,10 +1,8 @@
 package com.peakmain.gankzhihu.tasks.delayinittask;
 
 
-import android.content.SharedPreferences;
-
 import com.blankj.utilcode.util.LogUtils;
-import com.peakmain.gankzhihu.launchstarter.task.MainTask;
+import com.peakmain.baselibrary.launchstarter.task.MainTask;
 /**
  * author ：Peakmain
  * version : 1.0

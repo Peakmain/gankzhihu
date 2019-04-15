@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-   <com.peakmain.baselibrary.banner.BannerView
+   <com.youth.banner.Banner
        android:id="@+id/banner_view"
        android:layout_width="match_parent"
        android:layout_margin="10dp"
        android:layout_height="180dp">
 
-   </com.peakmain.baselibrary.banner.BannerView>
+   </com.youth.banner.Banner>
 
     <GridView
         android:id="@+id/gv_channel"

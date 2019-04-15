@@ -1,4 +1,4 @@
-package com.peakmain.gankzhihu.launchstarter.utils;
+package com.peakmain.baselibrary.launchstarter.utils;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;

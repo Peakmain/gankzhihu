@@ -8,8 +8,8 @@ import android.support.multidex.MultiDex;
 import com.peakmain.gankzhihu.di.component.ApplicationComponent;
 import com.peakmain.gankzhihu.di.component.DaggerApplicationComponent;
 import com.peakmain.gankzhihu.di.module.ApplicationModule;
-import com.peakmain.gankzhihu.launchstarter.TaskDispatcher;
-import com.peakmain.gankzhihu.launchstarter.utils.LaunchTimer;
+import com.peakmain.baselibrary.launchstarter.TaskDispatcher;
+import com.peakmain.baselibrary.launchstarter.utils.LaunchTimer;
 import com.peakmain.gankzhihu.tasks.ARouterTasks;
 import com.peakmain.gankzhihu.tasks.UtilsTasks;
 

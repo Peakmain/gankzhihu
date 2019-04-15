@@ -1,13 +1,13 @@
-package com.peakmain.gankzhihu.launchstarter.task;
+package com.peakmain.baselibrary.launchstarter.task;
 
 import android.os.Looper;
 import android.os.Process;
 import android.support.v4.os.TraceCompat;
 
 
-import com.peakmain.gankzhihu.launchstarter.DispatcherLog;
-import com.peakmain.gankzhihu.launchstarter.TaskDispatcher;
-import com.peakmain.gankzhihu.launchstarter.stat.TaskStat;
+import com.peakmain.baselibrary.launchstarter.DispatcherLog;
+import com.peakmain.baselibrary.launchstarter.TaskDispatcher;
+import com.peakmain.baselibrary.launchstarter.stat.TaskStat;
 
 /**
  * author ：Peakmain

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.peakmain.baselibrary.banner.BannerView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.youth.banner.Banner xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/banner_view"
     android:layout_width="match_parent"

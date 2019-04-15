@@ -1,4 +1,4 @@
-package com.peakmain.gankzhihu.launchstarter.stat;
+package com.peakmain.baselibrary.launchstarter.stat;
 
 class TaskStatBean {
 

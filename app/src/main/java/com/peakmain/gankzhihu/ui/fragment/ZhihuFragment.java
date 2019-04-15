@@ -1,30 +1,24 @@
 package com.peakmain.gankzhihu.ui.fragment;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.peakmain.baselibrary.banner.BannerAdapter;
-import com.peakmain.baselibrary.banner.BannerView;
-import com.peakmain.baselibrary.banner.BannerViewPager;
+
 import com.peakmain.baselibrary.recylerview.refreshload.DefaultLoadCreator;
 import com.peakmain.baselibrary.recylerview.refreshload.DefaultRefreshCreator;
 import com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView;
 import com.peakmain.baselibrary.recylerview.widget.RefreshRecyclerView;
 import com.peakmain.gankzhihu.R;
-import com.peakmain.gankzhihu.adapter.OnFeedShowCallBack;
 import com.peakmain.gankzhihu.adapter.ZhihuListAdapter;
 import com.peakmain.gankzhihu.base.BaseFragment;
 import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
 import com.peakmain.gankzhihu.bean.zhihu.TopStories;
-import com.peakmain.gankzhihu.launchstarter.utils.DelayInitDispatcher;
+import com.peakmain.baselibrary.launchstarter.utils.DelayInitDispatcher;
 import com.peakmain.gankzhihu.tasks.delayinittask.DelayInitTaskA;
 import com.peakmain.gankzhihu.tasks.delayinittask.DelayInitTaskB;
 import com.peakmain.gankzhihu.ui.activity.ZhihuWebActivity;
@@ -34,6 +28,7 @@ import com.peakmain.gankzhihu.utils.BannerUtils;
 import com.peakmain.gankzhihu.view.BackTopView;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
+import com.youth.banner.view.BannerViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +37,10 @@ import butterknife.BindView;
 
 /**
  * @author ：Peakmain
- * version ：1.0
- * createTime ：2018/11/9 0009 上午 9:14
- * mail : 2726449200@qq.com
- * describe ：
+ *         version ：1.0
+ *         createTime ：2018/11/9 0009 上午 9:14
+ *         mail : 2726449200@qq.com
+ *         describe ：
  */
 public class ZhihuFragment extends BaseFragment<ZhihuPresenter> implements ZhiHuContract.View, LoadRefreshRecyclerView.OnLoadMoreListener, RefreshRecyclerView.OnRefreshListener {
     private LinearLayoutManager mLayoutManager;
@@ -98,39 +93,11 @@ public class ZhihuFragment extends BaseFragment<ZhihuPresenter> implements ZhiHu
             mBannerImage.add(topStories.getImage());
             mBannerTitle.add(topStories.getTitle());
         }
-        BannerView mBanner = mTopBannerView.findViewById(R.id.vp_top_stories);
-        mBanner.setAdapter(new BannerAdapter() {
-            @Override
-            public View getView(int position, View convertView) {
-                if (convertView == null) {
-                    convertView = new ImageView(getContext());
-                }
-                ((ImageView) convertView).setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-                Glide.with(getContext()).load(topList.get(position).getImage()).into((ImageView) convertView);
-                return convertView;
-            }
-
-            @Override
-            public int getCount() {
-                return topList.size();
-            }
-
-            @Override
-            public String getBannerDesc(int position) {
-                return topList.get(position).getTitle();
-            }
-        });
-        //BannerUtils.initBanner(mBanner, mBannerImage, mBannerTitle);
-        //下标从0开始
-        mBanner.setOnBannerItemClickListener(new BannerViewPager.BannerItemClickListener() {
-            @Override
-            public void click(int position) {
-                ARouter.getInstance().build("/activity/ZhihuWebActivity")
-                        .withString(ZhihuWebActivity.ID, topList.get(position).getId())
-                        .navigation();
-            }
-        });
+        Banner mBanner = mTopBannerView.findViewById(R.id.vp_top_stories);
+        BannerUtils.initBanner(mBanner, mBannerImage, mBannerTitle);
+        mBanner.setOnBannerListener(position -> ARouter.getInstance().build("/activity/ZhihuWebActivity")
+                .withString(ZhihuWebActivity.ID, topList.get(position).getId())
+                .navigation());
         mRecyclerView.addHeaderView(mTopBannerView);
     }
 

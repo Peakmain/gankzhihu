@@ -1,4 +1,4 @@
-package com.peakmain.gankzhihu.launchstarter;
+package com.peakmain.baselibrary.launchstarter;
 
 import android.util.Log;
 /**

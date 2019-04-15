@@ -1,10 +1,10 @@
-package com.peakmain.gankzhihu.launchstarter.task;
+package com.peakmain.baselibrary.launchstarter.task;
 
 import android.content.Context;
 import android.os.Process;
 
-import com.peakmain.gankzhihu.launchstarter.utils.DispatcherExecutor;
-import com.peakmain.gankzhihu.launchstarter.TaskDispatcher;
+import com.peakmain.baselibrary.launchstarter.utils.DispatcherExecutor;
+import com.peakmain.baselibrary.launchstarter.TaskDispatcher;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
