@@ -3,18 +3,18 @@ package com.peakmain.gankzhihu;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
-import android.view.Gravity;
+import android.support.multidex.MultiDex;
 
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.blankj.utilcode.util.ToastUtils;
-import com.blankj.utilcode.util.Utils;
 import com.peakmain.gankzhihu.di.component.ApplicationComponent;
 import com.peakmain.gankzhihu.di.component.DaggerApplicationComponent;
 import com.peakmain.gankzhihu.di.module.ApplicationModule;
+import com.peakmain.gankzhihu.launchstarter.TaskDispatcher;
+import com.peakmain.gankzhihu.launchstarter.utils.LaunchTimer;
+import com.peakmain.gankzhihu.tasks.ARouterTasks;
+import com.peakmain.gankzhihu.tasks.UtilsTasks;
 
 /**
- * @author ：Peakmain
+ * author ：Peakmain
  * version ：1.0
  * createTime ：2018/11/7 0007 下午 3:58
  * mail : 2726449200@qq.com
@@ -26,27 +26,28 @@ public class App extends Application {
     public static int mainThreadId;
     private ApplicationComponent mApplicationComponent;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
         initApplicationComponent();
-        intARouter();
-        //配置ToastUtils的相关的属性
-        Utils.init(this);
-        ToastUtils.setGravity(Gravity.TOP,0, (int) (80 * Utils.getApp().getResources().getDisplayMetrics().density + 0.5));
-        ToastUtils.setBgColor(getResources().getColor(R.color.white));
-        ToastUtils.setMsgColor(getResources().getColor(R.color.colorAccent));
+        LaunchTimer.startRecord();
+        TaskDispatcher.init(App.this);
 
-        handler=new Handler(Looper.getMainLooper());
-        mainThreadId = android.os.Process.myTid();//获取当前线程的id
+        TaskDispatcher dispatcher = TaskDispatcher.createInstance();
+        dispatcher.addTask(new ARouterTasks())
+                .addTask(new UtilsTasks())
+                .start();
+        // dispatcher.await();
+        LaunchTimer.endRecord();
     }
 
-    private void intARouter() {
-        // 这两行必须写在init之前，否则这些配置在init过程中将无效
-        ARouter.openLog();     // 打印日志
-        ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
-        ARouter.init(this); // 尽可能早，推荐在Application中初始化
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        LaunchTimer.startRecord();
+        MultiDex.install(this);
     }
 
     public ApplicationComponent getApplicationComponent() {

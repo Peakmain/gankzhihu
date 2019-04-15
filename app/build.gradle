@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'android-aspectjx'
 
 android {
     compileSdkVersion 28
@@ -10,6 +11,7 @@ android {
         applicationId "com.peakmain.gankzhihu"
         minSdkVersion 19
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -74,4 +76,5 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
     implementation project(':baselibrary')
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'org.aspectj:aspectjrt:1.8.+'
 }

@@ -72,6 +72,7 @@ public class ZhihuPresenter extends BasePresenter<ZhiHuContract.View> implements
 
             RetrofitManager.createZhiHuIo(ZhihuApi.class)
                     .getLatestNews()
+                    .compose(mView.bindToLife())
                     .compose(RxSchedulers.applySchedulers())
                     .subscribe(newsTimeLine -> {
                         mView.disPlayZhihuList(newsTimeLine, mContext);

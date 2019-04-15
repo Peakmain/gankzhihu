@@ -19,10 +19,14 @@ import com.peakmain.baselibrary.recylerview.refreshload.DefaultRefreshCreator;
 import com.peakmain.baselibrary.recylerview.widget.LoadRefreshRecyclerView;
 import com.peakmain.baselibrary.recylerview.widget.RefreshRecyclerView;
 import com.peakmain.gankzhihu.R;
+import com.peakmain.gankzhihu.adapter.OnFeedShowCallBack;
 import com.peakmain.gankzhihu.adapter.ZhihuListAdapter;
 import com.peakmain.gankzhihu.base.BaseFragment;
 import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
 import com.peakmain.gankzhihu.bean.zhihu.TopStories;
+import com.peakmain.gankzhihu.launchstarter.utils.DelayInitDispatcher;
+import com.peakmain.gankzhihu.tasks.delayinittask.DelayInitTaskA;
+import com.peakmain.gankzhihu.tasks.delayinittask.DelayInitTaskB;
 import com.peakmain.gankzhihu.ui.activity.ZhihuWebActivity;
 import com.peakmain.gankzhihu.ui.contract.ZhiHuContract;
 import com.peakmain.gankzhihu.ui.presenter.ZhihuPresenter;
@@ -145,6 +149,12 @@ public class ZhihuFragment extends BaseFragment<ZhihuPresenter> implements ZhiHu
             this.mNewsTimeLine = newsTimeLine;
             adapter = new ZhihuListAdapter(context, mNewsTimeLine.getStories());
             mRecyclerView.setAdapter(adapter);
+            adapter.setOnFeedShowCallBack(() -> {
+                DelayInitDispatcher delayInitDispatcher = new DelayInitDispatcher();
+                delayInitDispatcher.addTask(new DelayInitTaskA())
+                        .addTask(new DelayInitTaskB())
+                        .start();
+            });
             adapter.notifyDataSetChanged();
             addTopView();
         }
@@ -170,13 +180,8 @@ public class ZhihuFragment extends BaseFragment<ZhihuPresenter> implements ZhiHu
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                isLoadMore = false;
-                mPresenter.getLatestNews();
-                mRecyclerView.onStopRefresh();
-            }
-        }, 1000);
+        isLoadMore = false;
+        mPresenter.getLatestNews();
+        mRecyclerView.onStopRefresh();
     }
 }
