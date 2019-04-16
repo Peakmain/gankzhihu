@@ -1,6 +1,7 @@
 package com.peakmain.gankzhihu.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
@@ -12,6 +13,7 @@ import com.peakmain.baselibrary.recylerview.loader.GlideImageLoader;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.bean.zhihu.Stories;
 import com.peakmain.gankzhihu.di.scope.ContextLife;
+import com.peakmain.gankzhihu.memory.MemoryLeakActivity;
 import com.peakmain.gankzhihu.ui.activity.ZhihuWebActivity;
 import com.peakmain.baselibrary.launchstarter.utils.LaunchTimer;
 import com.peakmain.gankzhihu.utils.ScreenUtil;
@@ -68,9 +70,10 @@ public class ZhihuListAdapter extends CommonRecyclerAdapter<Stories> {
         holder.setImageByUrl(R.id.iv_stories_img, new GlideImageLoader(images[0]));
         /*context.startActivity(ZhihuWebActivity.newIntent(context,stories.getId()))*/
         card_stories.setOnClickListener(v ->
-                ARouter.getInstance().build("/activity/ZhihuWebActivity")
+              /*  ARouter.getInstance().build("/activity/ZhihuWebActivity")
                         .withString(ZhihuWebActivity.ID, stories.getId())
-                        .navigation());
+                        .navigation());*/
+              mContext.startActivity(new Intent(mContext,MemoryLeakActivity.class)));
     }
 
 }

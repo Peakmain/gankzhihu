@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.peakmain.gankzhihu.R;
+import com.peakmain.gankzhihu.memory.MemoryLeakActivity;
 
 import java.util.Random;
 

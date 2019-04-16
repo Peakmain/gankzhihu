@@ -5,11 +5,11 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 
+import com.peakmain.baselibrary.launchstarter.TaskDispatcher;
+import com.peakmain.baselibrary.launchstarter.utils.LaunchTimer;
 import com.peakmain.gankzhihu.di.component.ApplicationComponent;
 import com.peakmain.gankzhihu.di.component.DaggerApplicationComponent;
 import com.peakmain.gankzhihu.di.module.ApplicationModule;
-import com.peakmain.baselibrary.launchstarter.TaskDispatcher;
-import com.peakmain.baselibrary.launchstarter.utils.LaunchTimer;
 import com.peakmain.gankzhihu.tasks.ARouterTasks;
 import com.peakmain.gankzhihu.tasks.UtilsTasks;
 
@@ -41,6 +41,15 @@ public class App extends Application {
                 .start();
         // dispatcher.await();
         LaunchTimer.endRecord();
+
+ /*       DexposedBridge.hookAllConstructors(ImageView.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                DexposedBridge.findAndHookMethod(ImageView.class,"setImageBitmap",
+                        Bitmap.class,new ImageHook());
+            }
+        });*/
     }
 
     @Override

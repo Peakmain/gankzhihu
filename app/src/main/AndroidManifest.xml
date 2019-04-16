@@ -37,6 +37,8 @@
         <activity android:name=".ui.activity.LiveActivity" />
         <activity android:name=".ui.activity.MusicPlayerActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".memory.MemoryShakeActivity" />
+        <activity android:name=".memory.MemoryLeakActivity" />
 
         <service android:name=".ui.service.MusicPlayerService"
            >
