@@ -70,10 +70,10 @@ public class ZhihuListAdapter extends CommonRecyclerAdapter<Stories> {
         holder.setImageByUrl(R.id.iv_stories_img, new GlideImageLoader(images[0]));
         /*context.startActivity(ZhihuWebActivity.newIntent(context,stories.getId()))*/
         card_stories.setOnClickListener(v ->
-              /*  ARouter.getInstance().build("/activity/ZhihuWebActivity")
+                ARouter.getInstance().build("/activity/ZhihuWebActivity")
                         .withString(ZhihuWebActivity.ID, stories.getId())
-                        .navigation());*/
-              mContext.startActivity(new Intent(mContext,MemoryLeakActivity.class)));
+                        .navigation());
+       /*       mContext.startActivity(new Intent(mContext,MemoryLeakActivity.class)));*/
     }
 
 }

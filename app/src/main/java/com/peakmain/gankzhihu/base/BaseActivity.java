@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -16,6 +17,7 @@ import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.di.component.ActivityComponent;
 import com.peakmain.gankzhihu.di.component.DaggerActivityComponent;
 import com.peakmain.gankzhihu.di.module.ActivityModule;
+import com.peakmain.gankzhihu.ui.contract.DailyFeedContract;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -26,10 +28,10 @@ import butterknife.Unbinder;
 
 /**
  * @author ：Peakmain
- * version ：1.0
- * createTime ：2018/11/7 0007 下午 4:50
- * mail : 2726449200@qq.com
- * describe ：
+ *         version ：1.0
+ *         createTime ：2018/11/7 0007 下午 4:50
+ *         mail : 2726449200@qq.com
+ *         describe ：
  */
 public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends RxAppCompatActivity implements BaseContract.BaseView {
 
@@ -55,7 +57,12 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
         super.onCreate(savedInstanceState);
         initActivityComponent();
         int layoutId = getLayoutId();
-        setContentView(layoutId);
+        if (layoutId != 0) {
+            setContentView(layoutId);
+        } else {
+            setContentView(getContentView());
+        }
+
         initInjector();
         unbinder = ButterKnife.bind(this);
         initToolBar();
@@ -63,6 +70,10 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
         initView();
 
         if (!NetworkUtils.isConnected()) showNoNet();
+    }
+
+    public View getContentView() {
+         return null;
     }
 
     @Override

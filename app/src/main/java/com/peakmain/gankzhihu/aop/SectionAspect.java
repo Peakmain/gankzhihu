@@ -16,16 +16,30 @@ import org.aspectj.lang.annotation.Aspect;
 @Aspect
 public class SectionAspect {
     @Around("call (* com.peakmain.gankzhihu.App.**(..))")
-    public void getTime(ProceedingJoinPoint joinPoint){
+    public void getTime(ProceedingJoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
 
-        long time=System.currentTimeMillis();
+        long time = System.currentTimeMillis();
         try {
             joinPoint.proceed();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
 
-        Log.e("SectionAspect",signature.getName()+"  cost Time:"+(System.currentTimeMillis()-time));
+        Log.e("SectionAspect", signature.getName() + "  cost Time:" + (System.currentTimeMillis() - time));
+    }
+
+    @Around("execution (* android.app.Activity.setContentView**(..))")
+    public void getSetContentViewTime(ProceedingJoinPoint joinPoint) {
+        Signature signature = joinPoint.getSignature();
+
+        long time = System.currentTimeMillis();
+        try {
+            joinPoint.proceed();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
+        Log.e("SectionAspect", signature.getName() + "  cost Time:" + (System.currentTimeMillis() - time));
     }
 }

@@ -1,19 +1,32 @@
 package com.peakmain.gankzhihu.ui.activity;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.AsyncLayoutInflater;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.Choreographer;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -25,12 +38,23 @@ import com.peakmain.gankzhihu.ui.fragment.JokeFragment;
 import com.peakmain.gankzhihu.ui.fragment.MusicFragment;
 import com.peakmain.gankzhihu.ui.fragment.NewsFragment;
 import com.peakmain.gankzhihu.ui.fragment.VideoFragment;
+import com.zhangyue.we.x2c.X2C;
+import com.zhangyue.we.x2c.ano.Xml;
+
+import org.json.JSONObject;
+
+import java.util.Iterator;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 @Route(path = "/activity/MainActivity")
+/*@Xml(layouts = "activity_main")*/
 public class MainActivity extends BaseActivity {
 
     @BindView(R.id.navigation_view)
@@ -51,10 +75,75 @@ public class MainActivity extends BaseActivity {
     private int position;//当前选中的位置
     private TextView mUserName;
 
+    private int mFrameCount = 0;
+    private static final long MONITOR_INTERVAL = 160L; //单次计算FPS使用160毫秒
+    private static final long MONITOR_INTERVAL_NANOS = MONITOR_INTERVAL * 1000L * 1000L;
+    private static final long MAX_INTERVAL = 1000L; //设置计算fps的单位时间间隔1000ms,即fps/s;
+    private long mStartFrameTime=0;
+
+    private void getFPS() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            return;
+        }
+        Choreographer.getInstance().postFrameCallback(new Choreographer.FrameCallback() {
+            @Override
+            public void doFrame(long frameTimeNanos) {
+                if (mStartFrameTime == 0) {
+                    mStartFrameTime = frameTimeNanos;
+                }
+                long interval = frameTimeNanos - mStartFrameTime;
+                if (interval > MONITOR_INTERVAL_NANOS) {
+                    double fps = (((double) (mFrameCount * 1000L * 1000L)) / interval) * MAX_INTERVAL;
+                    LogUtils.i(fps);
+                    mFrameCount = 0;
+                    mStartFrameTime = 0;
+                } else {
+                    ++mFrameCount;
+                }
+
+                Choreographer.getInstance().postFrameCallback(this);
+            }
+        });
+    }
+
+  /*  @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+      *//*  LayoutInflaterCompat.setFactory2(getLayoutInflater(), new LayoutInflater.Factory2() {
+            @Override
+            public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+
+                long time = System.currentTimeMillis();
+                View view = getDelegate().createView(parent, name, context, attrs);
+                LogUtils.e(name + " cost " + (System.currentTimeMillis() - time));
+                return view;
+            }
+
+            @Override
+            public View onCreateView(String name, Context context, AttributeSet attrs) {
+                return null;
+            }
+        });*//*
+
+       new AsyncLayoutInflater(this).inflate(R.layout.activity_main, null, new AsyncLayoutInflater.OnInflateFinishedListener() {
+           @Override
+           public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
+               setContentView(view);
+               //初始化一些参数比如findViewById等
+           }
+       });
+        super.onCreate(savedInstanceState);
+    }
+*/
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
     }
+
+  /*  @Override
+    public View getContentView() {
+        X2C.setContentView(MainActivity.this,R.layout.activity_main);
+        return null;
+    }*/
 
     @Override
     protected void initInjector() {
@@ -63,6 +152,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        getFPS();
         getWindow().setBackgroundDrawable(null);
         showFragment(FRAGMENT_NEWS);
         RxBus.getInstance().register(this);
