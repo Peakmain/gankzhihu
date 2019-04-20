@@ -72,14 +72,18 @@ public class ZhihuFragment extends BaseFragment<ZhihuPresenter> implements ZhiHu
     protected void initView(View view) {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mPresenter.getLatestNews();
+         mPresenter.getLatestNews();
         //recylerview和按钮进行关联
         mTopView.setRecyclerView(mRecyclerView);
         mRecyclerView.addLoadViewCreator(new DefaultLoadCreator());
         mRecyclerView.addRefreshViewCreator(new DefaultRefreshCreator());
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.setOnRefreshListener(this);
-
+/*        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
     }
 
     private void addTopView() {

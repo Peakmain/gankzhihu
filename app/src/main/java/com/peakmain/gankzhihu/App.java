@@ -3,13 +3,22 @@ package com.peakmain.gankzhihu;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Parcel;
+import android.os.StrictMode;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
+import com.blankj.utilcode.util.LogUtils;
+import com.github.anrwatchdog.ANRWatchDog;
+import com.github.moduth.blockcanary.BlockCanary;
 import com.peakmain.baselibrary.launchstarter.TaskDispatcher;
 import com.peakmain.baselibrary.launchstarter.utils.LaunchTimer;
+import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
+import com.peakmain.gankzhihu.block.AppBlockCanaryContext;
 import com.peakmain.gankzhihu.di.component.ApplicationComponent;
 import com.peakmain.gankzhihu.di.component.DaggerApplicationComponent;
 import com.peakmain.gankzhihu.di.module.ApplicationModule;
+import com.peakmain.gankzhihu.handler.HandlerHelper;
 import com.peakmain.gankzhihu.tasks.ARouterTasks;
 import com.peakmain.gankzhihu.tasks.UtilsTasks;
 
@@ -31,6 +40,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+        HandlerHelper.init(this);
         initApplicationComponent();
         LaunchTimer.startRecord();
         TaskDispatcher.init(App.this);
@@ -49,7 +59,47 @@ public class App extends Application {
                 DexposedBridge.findAndHookMethod(ImageView.class,"setImageBitmap",
                         Bitmap.class,new ImageHook());
             }
-        });*/
+        });
+                      try {
+            DexposedBridge.findAndHookMethod(Class.forName("android.os.BinderProxy"), "transact",
+                    int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            LogUtils.i( "BinderProxy beforeHookedMethod " + param.thisObject.getClass().getSimpleName()
+                                    + "\n" + Log.getStackTraceString(new Throwable()));
+                            super.beforeHookedMethod(param);
+                        }
+                    });
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }*/
+
+        initStrictMode();
+       /* BlockCanary.install(this, new AppBlockCanaryContext()).start();*/
+        //new ANRWatchDog().start();
+    }
+
+    private boolean DEV_MODE = true;
+
+    private void initStrictMode() {
+        if (!DEV_MODE) {
+            //线程策略
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectCustomSlowCalls()//API等级11，使用StrictMode.noteSlowCode
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()
+                    .penaltyLog()//在Logcat 中打印违规异常信息
+                    .build());
+            //虚拟机策略
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    //模拟限制数量1
+                    .setClassInstanceLimit(NewsTimeLine.class, 1)
+                    .detectLeakedClosableObjects() //API等级11
+                    .penaltyLog()
+                    .build());
+        }
     }
 
     @Override

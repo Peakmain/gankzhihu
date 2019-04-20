@@ -7,6 +7,7 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.LogUtils;
 import com.peakmain.baselibrary.recylerview.adapter.CommonRecyclerAdapter;
 import com.peakmain.baselibrary.recylerview.adapter.ViewHolder;
 import com.peakmain.baselibrary.recylerview.loader.GlideImageLoader;
@@ -51,6 +52,7 @@ public class ZhihuListAdapter extends CommonRecyclerAdapter<Stories> {
                         @Override
                         public boolean onPreDraw() {
                             holder.getView(R.id.card_stories).getViewTreeObserver().removeOnPreDrawListener(this);
+                            LogUtils.i("FeedShow");
                             LaunchTimer.endRecord();
                             if (mCallBack!=null){
                                 mCallBack.onFeedShow();

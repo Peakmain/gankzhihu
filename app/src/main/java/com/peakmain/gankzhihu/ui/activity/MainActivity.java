@@ -1,26 +1,16 @@
 package com.peakmain.gankzhihu.ui.activity;
 
-import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.AsyncLayoutInflater;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.view.Choreographer;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,26 +22,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.base.BaseActivity;
+import com.peakmain.gankzhihu.handler.PeakmainHandler;
 import com.peakmain.gankzhihu.rx.RegisterBus;
 import com.peakmain.gankzhihu.rx.RxBus;
 import com.peakmain.gankzhihu.ui.fragment.JokeFragment;
 import com.peakmain.gankzhihu.ui.fragment.MusicFragment;
 import com.peakmain.gankzhihu.ui.fragment.NewsFragment;
 import com.peakmain.gankzhihu.ui.fragment.VideoFragment;
-import com.zhangyue.we.x2c.X2C;
-import com.zhangyue.we.x2c.ano.Xml;
-
-import org.json.JSONObject;
-
-import java.util.Iterator;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 @Route(path = "/activity/MainActivity")
 /*@Xml(layouts = "activity_main")*/
@@ -94,7 +75,7 @@ public class MainActivity extends BaseActivity {
                 long interval = frameTimeNanos - mStartFrameTime;
                 if (interval > MONITOR_INTERVAL_NANOS) {
                     double fps = (((double) (mFrameCount * 1000L * 1000L)) / interval) * MAX_INTERVAL;
-                    LogUtils.i(fps);
+                    //LogUtils.i(fps);
                     mFrameCount = 0;
                     mStartFrameTime = 0;
                 } else {
@@ -145,6 +126,12 @@ public class MainActivity extends BaseActivity {
         return null;
     }*/
 
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+    }
+
     @Override
     protected void initInjector() {
         ARouter.getInstance().inject(this);
@@ -152,6 +139,17 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+       /* new PeakmainHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                LogUtils.e("开始了");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });*/
         getFPS();
         getWindow().setBackgroundDrawable(null);
         showFragment(FRAGMENT_NEWS);
@@ -242,6 +240,8 @@ public class MainActivity extends BaseActivity {
                     ft.show(mMusicFragment);
                 }
                 break;
+                default:
+                    break;
         }
         ft.commit();
     }

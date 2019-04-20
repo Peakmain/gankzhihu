@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'android-aspectjx'
-
+apply plugin: 'me.ele.lancet'
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.peakmain.gankzhihu"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 21
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
@@ -81,4 +81,7 @@ dependencies {
    /* implementation 'me.weishu:epic:0.3.6'*/
     annotationProcessor 'com.zhangyue.we:x2c-apt:1.1.2'
     implementation 'com.zhangyue.we:x2c-lib:1.0.6'
+    implementation 'com.github.markzhai:blockcanary-android:1.5.0'
+    implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
+    provided 'me.ele:lancet-base:1.0.4'
 }
