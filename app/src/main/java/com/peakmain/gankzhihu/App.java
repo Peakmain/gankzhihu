@@ -20,6 +20,7 @@ import com.peakmain.gankzhihu.di.component.DaggerApplicationComponent;
 import com.peakmain.gankzhihu.di.module.ApplicationModule;
 import com.peakmain.gankzhihu.handler.HandlerHelper;
 import com.peakmain.gankzhihu.tasks.ARouterTasks;
+import com.peakmain.gankzhihu.tasks.StethoTask;
 import com.peakmain.gankzhihu.tasks.UtilsTasks;
 
 /**
@@ -40,7 +41,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-        HandlerHelper.init(this);
+        HandlerHelper.init();
         initApplicationComponent();
         LaunchTimer.startRecord();
         TaskDispatcher.init(App.this);
@@ -48,6 +49,7 @@ public class App extends Application {
         TaskDispatcher dispatcher = TaskDispatcher.createInstance();
         dispatcher.addTask(new ARouterTasks())
                 .addTask(new UtilsTasks())
+                .addTask(new StethoTask())
                 .start();
         // dispatcher.await();
         LaunchTimer.endRecord();
@@ -99,6 +101,7 @@ public class App extends Application {
                     .detectLeakedClosableObjects() //API等级11
                     .penaltyLog()
                     .build());
+
         }
     }
 
@@ -107,6 +110,14 @@ public class App extends Application {
         super.attachBaseContext(base);
         LaunchTimer.startRecord();
         MultiDex.install(this);
+/*        DexposedBridge.hookAllConstructors(Thread.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                Thread thread = (Thread) param.thisObject;
+                LogUtils.i(thread.getName() + " stack " + Log.getStackTraceString(new Throwable()));
+            }
+        });*/
     }
 
     public ApplicationComponent getApplicationComponent() {

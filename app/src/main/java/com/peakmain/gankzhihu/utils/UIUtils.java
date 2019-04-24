@@ -6,13 +6,16 @@ import android.os.Process;
 import android.view.View;
 
 import com.peakmain.gankzhihu.App;
+import com.peakmain.gankzhihu.async.ThreadPoolUtils;
+
+import java.util.concurrent.ExecutorService;
 
 /**
  * @author ：Peakmain
- * version ：1.0
- * createTime ：2018/11/29 0029 上午 11:35
- * mail : 2726449200@qq.com
- * describe ：
+ *         version ：1.0
+ *         createTime ：2018/11/29 0029 上午 11:35
+ *         mail : 2726449200@qq.com
+ *         describe ：
  */
 public class UIUtils {
 
@@ -70,5 +73,20 @@ public class UIUtils {
 
         return currentThread == App.mainThreadId;// mainThreadId = android.os.Process.myTid()
 
+    }
+
+    private static ExecutorService sExecutorService;
+
+    public static void setExecutorService(ExecutorService executorService) {
+        sExecutorService = executorService;
+    }
+
+    public static void exectur(Runnable runnable) {
+        //如果外部库不为空，则使用外部，否则使用自己的
+        if (sExecutorService != null) {
+            sExecutorService.execute(runnable);
+        } else {
+            ThreadPoolUtils.getService().execute(runnable);
+        }
     }
 }

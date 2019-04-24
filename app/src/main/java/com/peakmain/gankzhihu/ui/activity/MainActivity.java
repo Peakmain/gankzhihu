@@ -1,13 +1,27 @@
 package com.peakmain.gankzhihu.ui.activity;
 
+import android.app.Activity;
+import android.app.AppOpsManager;
+import android.app.Application;
+import android.app.usage.NetworkStats;
+import android.app.usage.NetworkStatsManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.NetworkCapabilities;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.RemoteException;
+import android.provider.Settings;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Choreographer;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,13 +36,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.base.BaseActivity;
-import com.peakmain.gankzhihu.handler.PeakmainHandler;
 import com.peakmain.gankzhihu.rx.RegisterBus;
 import com.peakmain.gankzhihu.rx.RxBus;
 import com.peakmain.gankzhihu.ui.fragment.JokeFragment;
 import com.peakmain.gankzhihu.ui.fragment.MusicFragment;
 import com.peakmain.gankzhihu.ui.fragment.NewsFragment;
 import com.peakmain.gankzhihu.ui.fragment.VideoFragment;
+
+import java.util.Calendar;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -60,7 +77,7 @@ public class MainActivity extends BaseActivity {
     private static final long MONITOR_INTERVAL = 160L; //单次计算FPS使用160毫秒
     private static final long MONITOR_INTERVAL_NANOS = MONITOR_INTERVAL * 1000L * 1000L;
     private static final long MAX_INTERVAL = 1000L; //设置计算fps的单位时间间隔1000ms,即fps/s;
-    private long mStartFrameTime=0;
+    private long mStartFrameTime = 0;
 
     private void getFPS() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -87,9 +104,9 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-  /*  @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-      *//*  LayoutInflaterCompat.setFactory2(getLayoutInflater(), new LayoutInflater.Factory2() {
+    /*  @Override
+      protected void onCreate(@Nullable Bundle savedInstanceState) {
+        *//*  LayoutInflaterCompat.setFactory2(getLayoutInflater(), new LayoutInflater.Factory2() {
             @Override
             public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
 
@@ -150,7 +167,20 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });*/
+  /*      ThreadPoolUtils.getThreadPoolExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                //提高优先级
+                Process.setThreadPriority(Process.THREAD_PRIORITY_DEFAULT);
+                String oldName = Thread.currentThread().getName();
+                //方便查看哪个线程报错
+                Thread.currentThread().setName("MainActivity Thread Name");
+                Thread.currentThread().setName(oldName);
+            }
+        });*/
+
         getFPS();
+        //TrafficStats.getMobileRxBytes();
         getWindow().setBackgroundDrawable(null);
         showFragment(FRAGMENT_NEWS);
         RxBus.getInstance().register(this);
@@ -186,6 +216,137 @@ public class MainActivity extends BaseActivity {
             mUserName.setText("尚未登录");
         }
         mBottomNavigationView.setOnNavigationItemSelectedListener(this::onOptionsItemSelected);
+        /*if (hasPermissionToReadNetworkStats()) {
+            getApplication().registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                @Override
+                public void onActivityCreated(Activity activity, Bundle bundle) {
+
+                }
+
+                @Override
+                public void onActivityStarted(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityResumed(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityPaused(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityStopped(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+
+                }
+
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+
+                }
+            });
+            Executors.newScheduledThreadPool(1).schedule(new Runnable() {
+                @Override
+                public void run() {
+                   long netUse= getNetStatus(getTimesMonthMorning()-30*1000, System.currentTimeMillis());
+                   //当前是前后还是后台
+
+                }
+            }  ,30, TimeUnit.SECONDS);
+            getNetStatus(getTimesMonthMorning(), System.currentTimeMillis());
+        }*/
+    }
+
+    /**
+     *  打开“有权查看使用情况的应用”页面
+     */
+    private boolean hasPermissionToReadNetworkStats() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        final AppOpsManager appOps = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
+        int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                android.os.Process.myUid(), getPackageName());
+        if (mode == AppOpsManager.MODE_ALLOWED) {
+            return true;
+        }
+
+        requestReadNetworkStats();
+        return false;
+    }
+
+
+    private void requestReadNetworkStats() {
+        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+        startActivity(intent);
+    }
+
+    private long getNetStatus(long startTime, long endTime) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return startTime;
+        }
+        long total = 0;
+        try {
+
+            //发送和接受流量
+            long netDataRx = 0;//接受
+            long netDataTx = 0;//发送
+            // 获取subscriberId
+            TelephonyManager telecomManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            String subscriberId = telecomManager.getSubscriberId();
+            NetworkStatsManager manager = (NetworkStatsManager) getSystemService(NETWORK_STATS_SERVICE);
+            //设置本月的第一天为开始时间
+            NetworkStats networkStats = null;
+            NetworkStats.Bucket bucket = new NetworkStats.Bucket();
+            networkStats = manager.querySummary(NetworkCapabilities.TRANSPORT_WIFI, subscriberId, startTime, endTime);
+            do {
+                networkStats.getNextBucket(bucket);
+                int summaryUid = bucket.getUid();
+                if (getUidByPackageName() == summaryUid) {
+                    netDataRx += bucket.getRxBytes();
+                    netDataTx += bucket.getTxBytes();
+                }
+                Log.i(MainActivity.class.getSimpleName(), "uid:" + bucket.getUid() + " rx:" + bucket.getRxBytes() +
+                        " tx:" + bucket.getTxBytes());
+                total += bucket.getRxBytes() + bucket.getTxBytes();
+            } while (networkStats.hasNextBucket());
+            LogUtils.e("gankzhihu app net cost" + total);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
+    public int getUidByPackageName() {
+        int uid = -1;
+        PackageManager packageManager = getPackageManager();
+
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = packageManager.getPackageInfo("com.peakmain.gankzhihu", PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        assert packageInfo != null;
+        uid = packageInfo.applicationInfo.uid;
+        Log.e(MainActivity.class.getSimpleName(), packageInfo.packageName + " uid:" + uid);
+        return uid;
+    }
+
+    public long getTimesMonthMorning() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
+        return cal.getTimeInMillis();
     }
 
     @RegisterBus
@@ -240,8 +401,8 @@ public class MainActivity extends BaseActivity {
                     ft.show(mMusicFragment);
                 }
                 break;
-                default:
-                    break;
+            default:
+                break;
         }
         ft.commit();
     }

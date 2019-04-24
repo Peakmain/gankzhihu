@@ -1,6 +1,7 @@
 package com.peakmain.gankzhihu.net;
 
 import com.blankj.utilcode.util.NetworkUtils;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.orhanobut.logger.Logger;
 import com.peakmain.gankzhihu.App;
 
@@ -114,11 +115,14 @@ public class RetrofitManager {
                 Cache cache = new Cache(new File(App.getAppContext().getCacheDir(), "HttpCache"), 1024 * 1024 * 100);
                 if (mOkHttpClient == null) {
                     mOkHttpClient = new OkHttpClient.Builder()
+                            .eventListenerFactory(OkHttpEventListener.FACTORY)
+                            .dns(OkHttpDNS.getInstance(App.mContext))
                             .cache(cache)
                             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                             .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
                             .addInterceptor(mRewriteCacheControlInterceptor)
+                            .addNetworkInterceptor(new StethoInterceptor())
                             //.addInterceptor(mLoggingIntercepter)
 //                            .addInterceptor(interceptor)
 //                            .cookieJar(new CookiesManager())
