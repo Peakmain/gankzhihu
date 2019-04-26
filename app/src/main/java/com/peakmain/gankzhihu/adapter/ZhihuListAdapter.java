@@ -1,22 +1,20 @@
 package com.peakmain.gankzhihu.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.LogUtils;
+import com.peakmain.baselibrary.launchstarter.utils.LaunchTimer;
 import com.peakmain.baselibrary.recylerview.adapter.CommonRecyclerAdapter;
 import com.peakmain.baselibrary.recylerview.adapter.ViewHolder;
 import com.peakmain.baselibrary.recylerview.loader.GlideImageLoader;
 import com.peakmain.gankzhihu.R;
 import com.peakmain.gankzhihu.bean.zhihu.Stories;
 import com.peakmain.gankzhihu.di.scope.ContextLife;
-import com.peakmain.gankzhihu.memory.MemoryLeakActivity;
 import com.peakmain.gankzhihu.ui.activity.ZhihuWebActivity;
-import com.peakmain.baselibrary.launchstarter.utils.LaunchTimer;
 import com.peakmain.gankzhihu.utils.ScreenUtil;
 
 import java.util.List;
@@ -34,9 +32,11 @@ public class ZhihuListAdapter extends CommonRecyclerAdapter<Stories> {
     private Context mContext;
     private boolean mHasRecord;
     private OnFeedShowCallBack mCallBack;
+
     public void setOnFeedShowCallBack(OnFeedShowCallBack callBack) {
         this.mCallBack = callBack;
     }
+
     @Inject
     public ZhihuListAdapter(@ContextLife Context context, List<Stories> data) {
         super(context, data, R.layout.item_zhihu_stories);
@@ -54,10 +54,17 @@ public class ZhihuListAdapter extends CommonRecyclerAdapter<Stories> {
                             holder.getView(R.id.card_stories).getViewTreeObserver().removeOnPreDrawListener(this);
                             LogUtils.i("FeedShow");
                             LaunchTimer.endRecord();
-                            if (mCallBack!=null){
+                            if (mCallBack != null) {
                                 mCallBack.onFeedShow();
                             }
-                                return true;
+                        /*    WakeLockUtils.acquire(holder.getView(R.id.card_stories).getContext());
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    WakeLockUtils.release();
+                                }
+                            },200);*/
+                            return true;
                         }
                     });
         }

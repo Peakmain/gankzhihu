@@ -1,17 +1,16 @@
 package com.peakmain.gankzhihu.ui.activity;
 
-import android.app.Activity;
 import android.app.AppOpsManager;
-import android.app.Application;
 import android.app.usage.NetworkStats;
 import android.app.usage.NetworkStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.NetworkCapabilities;
+import android.os.BatteryManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.design.widget.BottomNavigationView;
@@ -44,8 +43,6 @@ import com.peakmain.gankzhihu.ui.fragment.NewsFragment;
 import com.peakmain.gankzhihu.ui.fragment.VideoFragment;
 
 import java.util.Calendar;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -178,7 +175,10 @@ public class MainActivity extends BaseActivity {
                 Thread.currentThread().setName(oldName);
             }
         });*/
-
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        Intent intent = registerReceiver(null, filter);
+        LogUtils.e("battery:" + intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1));
         getFPS();
         //TrafficStats.getMobileRxBytes();
         getWindow().setBackgroundDrawable(null);
@@ -265,8 +265,11 @@ public class MainActivity extends BaseActivity {
         }*/
     }
 
+
+
+
     /**
-     *  打开“有权查看使用情况的应用”页面
+     * 打开“有权查看使用情况的应用”页面
      */
     private boolean hasPermissionToReadNetworkStats() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
