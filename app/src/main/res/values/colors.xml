@@ -20,7 +20,6 @@
     <!--RefreshLayout-->
     <color name="refresh_color_1">#536DFE</color>
     <color name="refresh_color_2">#f44336</color>
-    <color name="refresh_color_3">#FF4081</color>
     <color name="progressBarColor">#A199E9</color>
 
     <!--option card-->
@@ -35,15 +34,6 @@
     <!--底部的颜色-->
     <color name="bottomColor">#a23456</color>
     <color name="textColorPrimary">#616161</color>
-
-    <color name="banner_bottom_bar_bg_day">#65000000</color>
-    <color name="dot_select_color">#ffffffff</color>
-    <color name="dot_unselect_color">#50ffffff</color>
-
-    <color name="transparentWhite">#11FFFFFF</color>
-    <color name="transparentBlack">#B0111111</color>
-
-    <color name="grey_medium">#999999</color>
 
     <color name="color_gray">#9a9a9a</color>
 </resources>

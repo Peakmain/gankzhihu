@@ -175,6 +175,18 @@ public class MainActivity extends BaseActivity {
                 Thread.currentThread().setName(oldName);
             }
         });*/
+
+        String abi = "";
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
+            abi=Build.CPU_ABI;
+        }else {
+            abi=Build.SUPPORTED_ABIS[0];
+        }
+        if(TextUtils.equals(abi,"ARMv7")){
+            //加载特定的so
+        }else{
+            //正常加载
+        }
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         Intent intent = registerReceiver(null, filter);
@@ -264,8 +276,6 @@ public class MainActivity extends BaseActivity {
             getNetStatus(getTimesMonthMorning(), System.currentTimeMillis());
         }*/
     }
-
-
 
 
     /**

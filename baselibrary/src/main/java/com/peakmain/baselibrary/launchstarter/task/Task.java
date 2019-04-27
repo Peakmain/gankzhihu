@@ -26,6 +26,9 @@ public abstract class Task implements ITask {
     private volatile boolean mIsSend;// Task是否已经被分发
     private CountDownLatch mDepends = new CountDownLatch(dependsOn() == null ? 0 : dependsOn().size());// 当前Task依赖的Task数量（需要等待被依赖的Task执行完毕才能执行自己），默认没有依赖
 
+    public Task() {
+    }
+
     /**
      * 当前Task等待，让依赖的Task先执行
      */

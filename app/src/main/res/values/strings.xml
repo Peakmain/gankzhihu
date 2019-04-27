@@ -52,9 +52,6 @@
     <string name="c_name">花间提壶方大厨</string>
     <string name="d_name">双世宠妃</string>
 
-    <string name="site_letv">乐视视频</string>
-    <string name="site_sohu">搜狐视频</string>
-
     <string name="channel_series">电视剧</string>
     <string name="channel_movie">电影</string>
     <string name="channel_comic">动漫</string>
@@ -65,8 +62,6 @@
     <string name="channel_favorite">收藏</string>
     <string name="channel_history">历史</string>
 
-    <string name="loading_text">加载中&#8230;</string>
-    <string name="data_error">数据获取失败(ㄒoㄒ)~~</string>
     <string name="empty_view_hint">暂时木有内容呀~~</string>
 
 </resources>

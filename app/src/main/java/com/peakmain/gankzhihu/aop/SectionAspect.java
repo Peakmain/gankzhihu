@@ -2,8 +2,10 @@ package com.peakmain.gankzhihu.aop;
 
 import android.util.Log;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
@@ -42,4 +44,10 @@ public class SectionAspect {
 
         Log.e("SectionAspect", signature.getName() + "  cost Time:" + (System.currentTimeMillis() - time));
     }
+
+    @After("execution (com.peakmain.baselibrary.launchstarter.task.Task.new(..))")
+    public void newObject(JoinPoint joinPoint) {
+        Log.e("SectionAspect","new:"+joinPoint.getTarget().getClass().getSimpleName());
+    }
 }
+
