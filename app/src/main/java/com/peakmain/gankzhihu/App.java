@@ -3,18 +3,12 @@ package com.peakmain.gankzhihu;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Parcel;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
-import com.blankj.utilcode.util.LogUtils;
-import com.github.anrwatchdog.ANRWatchDog;
-import com.github.moduth.blockcanary.BlockCanary;
 import com.peakmain.baselibrary.launchstarter.TaskDispatcher;
 import com.peakmain.baselibrary.launchstarter.utils.LaunchTimer;
 import com.peakmain.gankzhihu.bean.zhihu.NewsTimeLine;
-import com.peakmain.gankzhihu.block.AppBlockCanaryContext;
 import com.peakmain.gankzhihu.di.component.ApplicationComponent;
 import com.peakmain.gankzhihu.di.component.DaggerApplicationComponent;
 import com.peakmain.gankzhihu.di.module.ApplicationModule;
@@ -22,6 +16,7 @@ import com.peakmain.gankzhihu.handler.HandlerHelper;
 import com.peakmain.gankzhihu.tasks.ARouterTasks;
 import com.peakmain.gankzhihu.tasks.StethoTask;
 import com.peakmain.gankzhihu.tasks.UtilsTasks;
+import com.tencent.mmkv.MMKV;
 
 /**
  * author ：Peakmain
@@ -42,6 +37,9 @@ public class App extends Application {
         super.onCreate();
         mContext = getApplicationContext();
         HandlerHelper.init();
+        MMKV.initialize(this);
+        MMKV.defaultMMKV().encode("times",100);
+        MMKV.defaultMMKV().decodeInt("times");
         initApplicationComponent();
         LaunchTimer.startRecord();
         TaskDispatcher.init(App.this);
@@ -54,27 +52,6 @@ public class App extends Application {
         // dispatcher.await();
         LaunchTimer.endRecord();
 
- /*       DexposedBridge.hookAllConstructors(ImageView.class, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                super.afterHookedMethod(param);
-                DexposedBridge.findAndHookMethod(ImageView.class,"setImageBitmap",
-                        Bitmap.class,new ImageHook());
-            }
-        });
-                      try {
-            DexposedBridge.findAndHookMethod(Class.forName("android.os.BinderProxy"), "transact",
-                    int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            LogUtils.i( "BinderProxy beforeHookedMethod " + param.thisObject.getClass().getSimpleName()
-                                    + "\n" + Log.getStackTraceString(new Throwable()));
-                            super.beforeHookedMethod(param);
-                        }
-                    });
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }*/
 
         initStrictMode();
        /* BlockCanary.install(this, new AppBlockCanaryContext()).start();*/

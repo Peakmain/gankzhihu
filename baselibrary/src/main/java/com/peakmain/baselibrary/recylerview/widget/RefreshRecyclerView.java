@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * @author ：Peakmain
@@ -87,13 +86,18 @@ public class RefreshRecyclerView extends WrapRecyclerView {
         return super.dispatchTouchEvent(ev);
     }
 
+
+    int count = 0;
+
     /**
      * 重置当前刷新状态状态
      */
     private void restoreRefreshView() {
+
         int currentTopMargin = ((MarginLayoutParams) mRefreshView.getLayoutParams()).topMargin;
         int finalTopMargin = -mRefreshViewHeight + 1;
         if (mCurrentRefreshStatus == REFRESH_STATUS_LOOSEN_REFRESHING) {
+            count = 0;
             finalTopMargin = 0;
             mCurrentRefreshStatus = REFRESH_STATUS_REFRESHING;
             if (mRefreshCreator != null) {
@@ -103,20 +107,25 @@ public class RefreshRecyclerView extends WrapRecyclerView {
                 mListener.onRefresh();
             }
         }
-
-        int distance = currentTopMargin - finalTopMargin;
-
-        // 回弹到指定位置
-        ValueAnimator animator = ObjectAnimator.ofFloat(currentTopMargin, finalTopMargin).setDuration(distance);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float currentTopMargin = (float) animation.getAnimatedValue();
-                setRefreshViewMarginTop((int) currentTopMargin);
-            }
-        });
-        animator.start();
-        mCurrentDrag = false;
+        Log.e("TAG", "mCurrentRefreshStatus:" + mCurrentRefreshStatus);
+        if (mCurrentDrag) {
+            count = count + 1;
+            int distance = currentTopMargin - finalTopMargin;
+            Log.e("TAG", "count:" + count + ",finalTopMargin:" + finalTopMargin);
+            // 回弹到指定位置
+            ValueAnimator animator = ObjectAnimator.ofFloat(currentTopMargin, finalTopMargin).setDuration(distance);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    float currentTopMargin = (float) animation.getAnimatedValue();
+                    setRefreshViewMarginTop((int) currentTopMargin);
+                }
+            });
+            if (!animator.isRunning())
+                animator.start();
+            mCurrentDrag = false;
+        }
+        Log.e("TAG", "LayoutParams" + ((MarginLayoutParams) mRefreshView.getLayoutParams()).topMargin);
     }
 
 
@@ -187,17 +196,22 @@ public class RefreshRecyclerView extends WrapRecyclerView {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        //if (changed) {
-        if (mRefreshView != null && mRefreshViewHeight <= 0) {
-            // 获取头部刷新View的高度
-            mRefreshViewHeight = mRefreshView.getMeasuredHeight();
-            if (mRefreshViewHeight > 0) {
-                // 隐藏头部刷新的View  marginTop  多留出1px防止无法判断是不是滚动到头部问题
-                setRefreshViewMarginTop(-mRefreshViewHeight + 1);
+        if (mRefreshView != null) {
+            if (mRefreshViewHeight <= 0) {
+                // 获取头部刷新View的高度
+                mRefreshViewHeight = mRefreshView.getMeasuredHeight();
+                if (mRefreshViewHeight > 0) {
+                    // 隐藏头部刷新的View  marginTop  多留出1px防止无法判断是不是滚动到头部问题
+                    setRefreshViewMarginTop(-mRefreshViewHeight + 1);
+                }
+            } else {
+                if (!mCurrentDrag && mCurrentRefreshStatus == REFRESH_STATUS_NORMAL) {
+                    setRefreshViewMarginTop(-mRefreshViewHeight + 1);
+                }
             }
         }
-        // }
     }
+
 
     /**
      * 设置刷新View的marginTop
@@ -209,6 +223,7 @@ public class RefreshRecyclerView extends WrapRecyclerView {
         }
         params.topMargin = marginTop;
         mRefreshView.setLayoutParams(params);
+        Log.e("TAG", "marginTop:" + marginTop + ",layoutParams:" + ((MarginLayoutParams) mRefreshView.getLayoutParams()).topMargin);
     }
 
 
@@ -230,10 +245,11 @@ public class RefreshRecyclerView extends WrapRecyclerView {
      */
     public void onStopRefresh() {
         mCurrentRefreshStatus = REFRESH_STATUS_NORMAL;
-        restoreRefreshView();
         if (mRefreshCreator != null) {
             mRefreshCreator.onStopRefresh();
         }
+        restoreRefreshView();
+
     }
 
     // 处理刷新回调监听
