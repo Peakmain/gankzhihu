@@ -51,9 +51,6 @@
 
 ![上拉加载.gif](https://upload-images.jianshu.io/upload_images/9387746-3fe3d0b92358072b.gif?imageMogr2/auto-orient/strip)
 
-###TODO
-下拉刷新的时候在新闻页面中刷新的时候，有时候view会在下拉刷新完成的时候不消失，尚未想到解决办法，若有大神知道，还请大神指导，感激不尽。
-
 ### 最后
 * 感谢开源项目 [ZhihuDailyPurify](https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90)
 * 感谢 [gank.io](http://gank.io/api)
