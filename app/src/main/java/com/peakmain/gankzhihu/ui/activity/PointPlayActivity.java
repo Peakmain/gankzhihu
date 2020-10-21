@@ -1,5 +1,6 @@
 package com.peakmain.gankzhihu.ui.activity;
 
+import android.app.Activity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -27,10 +28,10 @@ import butterknife.BindView;
 
 /**
  * @author ：Peakmain
- *         version ：1.0
- *         createTime ：2018/11/26 0026 上午 11:02
- *         mail : 2726449200@qq.com
- *         describe ：点播
+ * version ：1.0
+ * createTime ：2018/11/26 0026 上午 11:02
+ * mail : 2726449200@qq.com
+ * describe ：点播
  */
 @Route(path = "/activity/PointPlayActivity")
 public class PointPlayActivity extends BaseActivity {
@@ -39,19 +40,9 @@ public class PointPlayActivity extends BaseActivity {
     @BindView(R.id.gv_channel)
     GridView mGridView;
     //描述
-    private String[] mDes = new String[]{
-            getResources().getString(R.string.a_name),
-            getResources().getString(R.string.b_name),
-            getResources().getString(R.string.c_name),
-            getResources().getString(R.string.d_name),
-    };
+    private String[] mDes;
     //图片集合
-    private String[] mImg = new String[]{
-            getResources().getResourceName(R.drawable.a),
-            getResources().getResourceName(R.drawable.b),
-            getResources().getResourceName(R.drawable.c),
-            getResources().getResourceName(R.drawable.d),
-    };
+    private String[] mImg;
 
     @Override
     protected int getLayoutId() {
@@ -65,6 +56,18 @@ public class PointPlayActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mDes = new String[]{
+                getResources().getString(R.string.a_name),
+                getResources().getString(R.string.b_name),
+                getResources().getString(R.string.c_name),
+                getResources().getString(R.string.d_name),
+        };
+        mImg = new String[]{
+                getResources().getResourceName(R.drawable.a),
+                getResources().getResourceName(R.drawable.b),
+                getResources().getResourceName(R.drawable.c),
+                getResources().getResourceName(R.drawable.d),
+        };
         initToolBar();
         initBanner();
         initData();

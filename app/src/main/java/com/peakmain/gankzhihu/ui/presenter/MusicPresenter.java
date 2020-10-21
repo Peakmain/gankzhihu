@@ -29,8 +29,8 @@ public class MusicPresenter extends BasePresenter<MusicContract.View> implements
 
 
     @Inject
-    public MusicPresenter(@ContextLife  Context context) {
-        this.mContext=context;
+    public MusicPresenter(@ContextLife Context context) {
+        this.mContext = context;
     }
 
     @Override

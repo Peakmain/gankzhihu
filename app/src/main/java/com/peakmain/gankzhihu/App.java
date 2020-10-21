@@ -3,6 +3,7 @@ package com.peakmain.gankzhihu;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
@@ -37,8 +38,9 @@ public class App extends Application {
         super.onCreate();
         mContext = getApplicationContext();
         HandlerHelper.init();
+        handler = new Handler(Looper.getMainLooper());
         MMKV.initialize(this);
-        MMKV.defaultMMKV().encode("times",100);
+        MMKV.defaultMMKV().encode("times", 100);
         MMKV.defaultMMKV().decodeInt("times");
         initApplicationComponent();
         LaunchTimer.startRecord();
@@ -54,7 +56,7 @@ public class App extends Application {
 
 
         initStrictMode();
-       /* BlockCanary.install(this, new AppBlockCanaryContext()).start();*/
+        /* BlockCanary.install(this, new AppBlockCanaryContext()).start();*/
         //new ANRWatchDog().start();
     }
 
